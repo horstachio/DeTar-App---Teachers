@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Studio Teacher App</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #1a1a1a; min-height: 100vh; }
+    header { background: #1a1a1a; padding: 16px 20px; position: sticky; top: 0; z-index: 100; }
+    header h1 { color: #fff; font-size: 18px; font-weight: 600; margin-bottom: 12px; }
+    nav { display: flex; gap: 8px; flex-wrap: wrap; }
+    .tab-btn { background: transparent; border: 1px solid #444; color: #aaa; padding: 6px 14px; border-radius: 20px; font-size: 13px; cursor: pointer; }
+    .tab-btn.active { background: #fff; border-color: #fff; color: #1a1a1a; font-weight: 600; }
+    main { padding: 24px 20px; max-width: 600px; margin: 0 auto; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    h2 { font-size: 22px; font-weight: 700; margin-bottom: 16px; }
+    .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .header-actions { display: flex; gap: 8px; }
+    .day-section { margin-bottom: 28px; }
+    .day-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #888; margin-bottom: 8px; }
+    .day-label.today { color: #1a1a1a; font-size: 13px; }
+    .card { background: #fff; border-radius: 12px; padding: 16px; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .card.confirmed { border-left: 4px solid #22c55e; }
+    .card.band-card { border-left: 4px solid #8b5cf6; }
+    .card.band-card.confirmed { border-left: 4px solid #22c55e; }
+    .student-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .student-info h3 { font-size: 16px; font-weight: 600; margin-bottom: 2px; }
+    .student-info p { font-size: 13px; color: #888; }
+    .band-tag { display: inline-block; font-size: 11px; font-weight: 700; color: #8b5cf6; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2px; }
+    .confirmed-badge { font-size: 11px; font-weight: 700; color: #22c55e; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; }
+    .confirmed-details { font-size: 13px; color: #555; margin-top: 4px; }
+    .student-meta { font-size: 13px; color: #888; text-align: right; }
+    .student-meta span { display: block; font-size: 15px; font-weight: 700; color: #1a1a1a; }
+    .card-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+    .btn-log { background: #22c55e; color: #fff; border: none; padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; }
+    .btn-edit-logged { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; padding: 6px 12px; border-radius: 8px; font-size: 13px; cursor: pointer; }
+    .btn-pencil { background: none; border: none; font-size: 16px; cursor: pointer; color: #aaa; padding: 4px 6px; }
+    .btn-remove { background: none; border: none; color: #ddd; font-size: 16px; cursor: pointer; padding: 4px 6px; }
+    .btn-primary { background: #1a1a1a; color: #fff; border: none; padding: 10px 18px; border-radius: 8px; font-size: 14px; cursor: pointer; }
+    .btn-secondary { background: #f0f0f0; color: #1a1a1a; border: none; padding: 10px 18px; border-radius: 8px; font-size: 14px; cursor: pointer; }
+    .btn-danger { background: #fee2e2; color: #dc2626; border: none; padding: 10px 18px; border-radius: 8px; font-size: 14px; cursor: pointer; }
+    .btn-sm { padding: 6px 12px; font-size: 13px; border-radius: 6px; border: none; cursor: pointer; }
+    .btn-band { background: #8b5cf6; color: #fff; border: none; padding: 10px 18px; border-radius: 8px; font-size: 14px; cursor: pointer; }
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; justify-content: center; align-items: flex-end; }
+    .modal-overlay.open { display: flex; }
+    .modal { background: #fff; border-radius: 20px 20px 0 0; padding: 24px 20px; width: 100%; max-width: 600px; max-height: 85vh; overflow-y: auto; }
+    .modal h3 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+    .modal-subtitle { font-size: 13px; color: #888; margin-bottom: 16px; }
+    .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+    .modal-actions button { flex: 1; padding: 12px; border-radius: 8px; font-size: 15px; cursor: pointer; border: none; font-weight: 600; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #555; }
+    .form-group input { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; }
+    .search-input { width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; margin-bottom: 14px; }
+    .duration-picker { display: flex; gap: 8px; }
+    .dur-btn { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 8px; background: #fff; font-size: 14px; cursor: pointer; text-align: center; }
+    .dur-btn.selected { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+    .day-picker { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 4px; }
+    .day-pick-btn { padding: 8px 12px; border-radius: 20px; border: 1px solid #ddd; background: #fff; font-size: 13px; cursor: pointer; }
+    .day-pick-btn.selected { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+    .type-picker { display: flex; gap: 8px; }
+    .type-btn { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 8px; background: #fff; font-size: 14px; cursor: pointer; text-align: center; }
+    .type-btn.selected { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+    .roster-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
+    .roster-item:last-child { border-bottom: none; }
+    .step-indicator { font-size: 12px; color: #aaa; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+    .log-card { background: #fff; border-radius: 10px; padding: 14px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .log-card-info h4 { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
+    .log-card-info p { font-size: 13px; color: #888; }
+    .log-card-right { text-align: right; }
+    .log-card-right .duration { font-size: 15px; font-weight: 700; }
+    .log-card-right .type-tag { font-size: 11px; color: #888; text-transform: uppercase; }
+    .month-block { margin-bottom: 32px; }
+    .month-heading { font-size: 18px; font-weight: 700; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #e5e5e5; }
+    .section-divider { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #888; margin-bottom: 12px; margin-top: 4px; }
+    .past-month-toggle { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; background: #fff; border-radius: 12px; margin-bottom: 10px; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.06); font-weight: 600; }
+    .past-month-content { display: none; }
+    .past-month-content.open { display: block; }
+    .empty-state { text-align: center; padding: 40px 20px; color: #aaa; }
+    .empty-state p { margin-bottom: 16px; font-size: 15px; }
+    .day-select-btn { width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 10px; background: #fff; font-size: 15px; cursor: pointer; text-align: left; margin-bottom: 8px; }
+    .member-check-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
+    .member-check-item:last-child { border-bottom: none; }
+    .member-check-item label { font-size: 15px; font-weight: 500; cursor: pointer; }
+    .member-check-item input[type=checkbox] { width: 20px; height: 20px; cursor: pointer; }
+    .member-list-preview { font-size: 12px; color: #888; margin-top: 2px; }
+
+    /* Earnings summary */
+    .earnings-summary { background: #fff; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .earnings-toggle { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+    .earnings-total { font-size: 28px; font-weight: 800; color: #1a1a1a; }
+    .earnings-label { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+    .earnings-detail { margin-top: 16px; display: none; }
+    .earnings-detail.open { display: block; }
+    .earnings-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f5f5f5; font-size: 14px; }
+    .earnings-row:last-child { border-bottom: none; }
+    .earnings-row.total-row { font-weight: 700; font-size: 15px; border-top: 2px solid #e5e5e5; margin-top: 4px; padding-top: 12px; }
+
+    /* Notes */
+    .notes-list-item { background: #fff; border-radius: 12px; padding: 16px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .notes-list-item:active { opacity: 0.8; }
+    .notes-list-item h3 { font-size: 16px; font-weight: 600; margin-bottom: 2px; }
+    .notes-list-item p { font-size: 13px; color: #888; }
+    .notes-page { display: none; }
+    .notes-page.open { display: block; }
+    .notes-list-view { display: block; }
+    .notes-list-view.hidden { display: none; }
+    .notes-back-btn { display: flex; align-items: center; gap: 8px; background: none; border: none; font-size: 15px; font-weight: 600; cursor: pointer; margin-bottom: 20px; color: #1a1a1a; }
+    .notes-textarea { width: 100%; min-height: 400px; padding: 16px; border: 1px solid #ddd; border-radius: 12px; font-size: 15px; font-family: inherit; resize: vertical; line-height: 1.6; }
+    .notes-textarea:focus { outline: none; border-color: #1a1a1a; }
+    .notes-saved { font-size: 12px; color: #aaa; text-align: right; margin-top: 8px; }
+
+    /* Export */
+    .export-card { background: #fff; border-radius: 12px; padding: 20px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .export-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 12px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Studio Teacher App</h1>
+    <nav>
+      <button class="tab-btn active" data-tab="favorites">Favorites</button>
+      <button class="tab-btn" data-tab="logged">Logged Lessons</button>
+      <button class="tab-btn" data-tab="notes">Notes</button>
+      <button class="tab-btn" data-tab="export">Export</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- FAVORITES -->
+    <section id="favorites" class="tab-content active">
+      <div class="section-header">
+        <h2>Favorites</h2>
+        <div class="header-actions">
+          <button class="btn-band" onclick="openCreateBandModal()">+ Band</button>
+          <button class="btn-primary" onclick="openRosterModal()">+ Student</button>
+        </div>
+      </div>
+      <div id="favorites-list"></div>
+    </section>
+
+    <!-- LOGGED LESSONS -->
+    <section id="logged" class="tab-content">
+      <h2>Logged Lessons</h2>
+      <div id="logged-lessons-view"></div>
+    </section>
+
+    <!-- NOTES -->
+    <section id="notes" class="tab-content">
+      <div class="notes-list-view" id="notes-list-view">
+        <h2>Notes</h2>
+        <div id="notes-list"></div>
+      </div>
+      <div class="notes-page" id="notes-page">
+        <button class="notes-back-btn" onclick="closeNotesPage()">← Notes</button>
+        <h2 id="notes-page-title"></h2>
+        <p id="notes-page-subtitle" style="font-size:13px;color:#888;margin-bottom:16px"></p>
+        <textarea class="notes-textarea" id="notes-textarea" placeholder="Write anything about this student..."></textarea>
+        <div class="notes-saved" id="notes-saved"></div>
+      </div>
+    </section>
+
+    <!-- EXPORT -->
+    <section id="export" class="tab-content">
+      <h2>Export</h2>
+      <div class="export-card">
+        <h3>Monthly CSV Export</h3>
+        <div class="form-group">
+          <label>Your name (appears in CSV)</label>
+          <input type="text" id="teacher-name-input" placeholder="e.g. Hudson" />
+        </div>
+        <div class="form-group">
+          <label>Month to export</label>
+          <input type="month" id="export-month" />
+        </div>
+        <button class="btn-primary" style="width:100%;padding:14px;font-size:15px" onclick="exportCSV()">Download CSV</button>
+      </div>
+      <div class="export-card" style="background:#f9f9f9">
+        <h3 style="color:#888">What's included</h3>
+        <p style="font-size:13px;color:#888;line-height:1.6">One row per session. Columns: Teacher Name, Student Name, Parent Name, Date, Time, Duration (hrs), Session Type, Band Name.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- ROSTER MODAL -->
+  <div class="modal-overlay" id="roster-modal">
+    <div class="modal">
+      <div class="step-indicator">Step 1 of 3</div>
+      <h3>Add to Favorites</h3>
+      <p class="modal-subtitle">Search for a student to add</p>
+      <input class="search-input" type="text" placeholder="Search students..." oninput="filterRoster(this.value)" />
+      <div id="roster-list"></div>
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="closeRosterModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY PICKER MODAL -->
+  <div class="modal-overlay" id="day-modal">
+    <div class="modal">
+      <div class="step-indicator" id="day-step-label">Step 2 of 3</div>
+      <h3 id="day-modal-title">Which days?</h3>
+      <p class="modal-subtitle">Select all days you teach this student</p>
+      <div class="day-picker" id="student-day-picker">
+        <button class="day-pick-btn" data-day="Mon">Mon</button>
+        <button class="day-pick-btn" data-day="Tue">Tue</button>
+        <button class="day-pick-btn" data-day="Wed">Wed</button>
+        <button class="day-pick-btn" data-day="Thu">Thu</button>
+        <button class="day-pick-btn" data-day="Fri">Fri</button>
+        <button class="day-pick-btn" data-day="Sat">Sat</button>
+        <button class="day-pick-btn" data-day="Sun">Sun</button>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-secondary" id="day-modal-back-btn" onclick="closeDayModal()">Cancel</button>
+        <button class="btn-primary" onclick="goToTimeDuration()">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIME & DURATION MODAL -->
+  <div class="modal-overlay" id="time-modal">
+    <div class="modal">
+      <div class="step-indicator" id="time-step-label">Step 3 of 3</div>
+      <h3 id="time-modal-title">Usual time & length</h3>
+      <p class="modal-subtitle">This will pre-fill when you log a lesson</p>
+      <div class="form-group">
+        <label>Usual start time</label>
+        <input type="time" id="usual-time" />
+      </div>
+      <div class="form-group">
+        <label>Typical duration</label>
+        <div class="duration-picker" id="time-modal-duration">
+          <button class="dur-btn" data-dur="0.5">30m</button>
+          <button class="dur-btn" data-dur="0.75">45m</button>
+          <button class="dur-btn selected" data-dur="1">60m</button>
+          <button class="dur-btn" data-dur="1.5">90m</button>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="backToDayModal()">Back</button>
+        <button class="btn-primary" id="confirm-fav-btn" onclick="confirmAddFavorite()">Add to Favorites</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CREATE BAND MODAL -->
+  <div class="modal-overlay" id="create-band-modal">
+    <div class="modal">
+      <div class="step-indicator">Step 1 of 3</div>
+      <h3>Create Band</h3>
+      <p class="modal-subtitle">Name the band and pick its members</p>
+      <div class="form-group">
+        <label>Band name</label>
+        <input type="text" id="band-name-input" placeholder="e.g. The Rockers" />
+      </div>
+      <p style="font-size:13px;font-weight:600;color:#555;margin-bottom:8px">Select members</p>
+      <div id="band-member-select"></div>
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="closeCreateBandModal()">Cancel</button>
+        <button class="btn-band" onclick="goToBandDayPicker()">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BAND DAY PICKER MODAL -->
+  <div class="modal-overlay" id="band-day-modal">
+    <div class="modal">
+      <div class="step-indicator">Step 2 of 3</div>
+      <h3 id="band-day-title">Which days?</h3>
+      <p class="modal-subtitle">Select all days this band meets</p>
+      <div class="day-picker" id="band-day-picker">
+        <button class="day-pick-btn" data-day="Mon">Mon</button>
+        <button class="day-pick-btn" data-day="Tue">Tue</button>
+        <button class="day-pick-btn" data-day="Wed">Wed</button>
+        <button class="day-pick-btn" data-day="Thu">Thu</button>
+        <button class="day-pick-btn" data-day="Fri">Fri</button>
+        <button class="day-pick-btn" data-day="Sat">Sat</button>
+        <button class="day-pick-btn" data-day="Sun">Sun</button>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="backToCreateBand()">Back</button>
+        <button class="btn-band" onclick="goToBandTimePicker()">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BAND TIME MODAL -->
+  <div class="modal-overlay" id="band-time-modal">
+    <div class="modal">
+      <div class="step-indicator">Step 3 of 3</div>
+      <h3 id="band-time-title">Usual time & length</h3>
+      <p class="modal-subtitle">This will pre-fill when you log a band session</p>
+      <div class="form-group">
+        <label>Usual start time</label>
+        <input type="time" id="band-usual-time" />
+      </div>
+      <div class="form-group">
+        <label>Typical duration</label>
+        <div class="duration-picker" id="band-time-duration">
+          <button class="dur-btn" data-dur="0.5">30m</button>
+          <button class="dur-btn" data-dur="0.75">45m</button>
+          <button class="dur-btn selected" data-dur="1">60m</button>
+          <button class="dur-btn" data-dur="1.5">90m</button>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="backToBandDayPicker()">Back</button>
+        <button class="btn-band" id="confirm-band-btn" onclick="confirmBand()">Add Band</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOG / EDIT LESSON MODAL -->
+  <div class="modal-overlay" id="lesson-modal">
+    <div class="modal">
+      <h3 id="lesson-modal-title">Log Lesson</h3>
+      <p class="modal-subtitle" id="lesson-modal-subtitle"></p>
+      <div id="lesson-modal-body">
+        <div class="form-group">
+          <label>Date</label>
+          <input type="date" id="lesson-date" />
+        </div>
+        <div class="form-group">
+          <label>Start time</label>
+          <input type="time" id="lesson-time" />
+        </div>
+        <div class="form-group">
+          <label>Duration</label>
+          <div class="duration-picker" id="lesson-duration-picker">
+            <button class="dur-btn" data-dur="0.5">30m</button>
+            <button class="dur-btn" data-dur="0.75">45m</button>
+            <button class="dur-btn" data-dur="1">60m</button>
+            <button class="dur-btn" data-dur="1.5">90m</button>
+          </div>
+        </div>
+        <div class="form-group" id="fg-type">
+          <label>Session type</label>
+          <div class="type-picker">
+            <button class="type-btn selected" data-type="individual">Individual</button>
+            <button class="type-btn" data-type="band">Band</button>
+          </div>
+        </div>
+        <div id="band-member-checklist"></div>
+      </div>
+      <div id="day-select-options"></div>
+      <div class="modal-actions" id="lesson-modal-actions"></div>
+    </div>
+  </div>
+
+  <script>
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.tab;
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(target).classList.add('active');
+        if (target === 'logged') renderLoggedLessons();
+        if (target === 'notes') renderNotesList();
+      });
+    });
+
+    const DAYS = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+    const todayName = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date().getDay()];
+    const LESSON_RATE = 60;
+    const BAND_RATE = 30;
+
+    const allStudents = [
+      { id: 1, name: 'Jake Smith', parent: 'Sarah Smith' },
+      { id: 2, name: 'Mia Torres', parent: 'Carlos Torres' },
+      { id: 3, name: 'Leo Park', parent: '' },
+      { id: 4, name: 'Anna Chen', parent: 'Wei Chen' },
+      { id: 5, name: 'Marcus Webb', parent: 'Diana Webb' },
+    ];
+
+    let favorites = [];
+    let bands = [];
+    let loggedLessons = [];
+    let notes = {};
+    let pendingStudent = null;
+    let editingFavoriteId = null;
+    let selectedDays = [];
+    let editingLessonId = null;
+    let editSource = null;
+    let pendingBand = { name: '', memberIds: [], days: [], usualTime: '', duration: 1 };
+    let editingBandId = null;
+    let bandSelectedDays = [];
+    let currentNotesKey = null;
+
+    function durationLabel(d) {
+      if (d === 0.5) return '30 min';
+      if (d === 0.75) return '45 min';
+      if (d === 1) return '60 min';
+      if (d === 1.5) return '90 min';
+      return d + ' hr';
+    }
+
+    function todayISO() { return new Date().toISOString().split('T')[0]; }
+    function nowTime() { return new Date().toTimeString().slice(0,5); }
+
+    function formatDate(iso) {
+      const d = new Date(iso + 'T00:00:00');
+      return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+    }
+
+    function monthKey(iso) { return iso.slice(0,7); }
+
+    function monthLabel(key) {
+      const [y, m] = key.split('-');
+      return new Date(y, m-1, 1).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    }
+
+    function mostRecentDay(dayName) {
+      const dayIndex = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(dayName);
+      const today = new Date();
+      const todayIndex = today.getDay();
+      let diff = todayIndex - dayIndex;
+      if (diff < 0) diff += 7;
+      const result = new Date(today);
+      result.setDate(today.getDate() - diff);
+      return result.toISOString().split('T')[0];
+    }
+
+    function calcEarnings(lessons) {
+      let lessonTotal = 0, bandTotal = 0;
+      lessons.forEach(l => {
+        if (l.bandId) {
+          bandTotal += l.duration * BAND_RATE;
+        } else {
+          lessonTotal += l.duration * LESSON_RATE;
+        }
+      });
+      return { lessonTotal, bandTotal, total: lessonTotal + bandTotal };
+    }
+
+    // ── STUDENT CARD ──────────────────────────────────
+    function studentCard(f, s, isToday) {
+      const lesson = loggedLessons.find(l => l.studentId === f.studentId && l.date === todayISO() && !l.bandId);
+      if (isToday && lesson) {
+        return '<div class="card confirmed">' +
+          '<div class="student-row">' +
+            '<div class="student-info">' +
+              '<h3>' + s.name + '</h3>' +
+              '<div class="confirmed-details">' + lesson.time + ' · ' + durationLabel(lesson.duration) + ' · ' + lesson.type + '</div>' +
+              '<div class="confirmed-badge">✓ Logged</div>' +
+            '</div>' +
+            '<div class="card-actions">' +
+              '<button class="btn-edit-logged" onclick="openEditLesson(' + lesson.id + ', \'favorites\')">Edit</button>' +
+              '<button class="btn-pencil" onclick="openEditFavorite(' + s.id + ')">✏️</button>' +
+              '<button class="btn-remove" onclick="removeFavorite(' + s.id + ')">✕</button>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      }
+      return '<div class="card">' +
+        '<div class="student-row">' +
+          '<div class="student-info">' +
+            '<h3>' + s.name + '</h3>' +
+            '<p>' + (s.parent ? s.parent : 'Adult student') + '</p>' +
+          '</div>' +
+          '<div class="card-actions">' +
+            '<div class="student-meta" style="text-align:right;margin-right:4px">' +
+              '<span>' + (f.usualTime || '--') + '</span>' +
+              durationLabel(f.duration) +
+            '</div>' +
+            '<button class="btn-log" onclick="openLogLesson(' + f.studentId + ')">Log</button>' +
+            '<button class="btn-pencil" onclick="openEditFavorite(' + s.id + ')">✏️</button>' +
+            '<button class="btn-remove" onclick="removeFavorite(' + s.id + ')">✕</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    }
+
+    // ── BAND CARD ─────────────────────────────────────
+    function bandCard(band, isToday) {
+      const memberNames = band.memberIds.map(id => {
+        const s = allStudents.find(st => st.id === id);
+        return s ? s.name : '';
+      }).filter(Boolean);
+      const todayLog = loggedLessons.find(l => l.bandId === band.id && l.date === todayISO());
+      if (isToday && todayLog) {
+        const presentNames = (todayLog.presentMemberIds || band.memberIds).map(id => {
+          const s = allStudents.find(st => st.id === id);
+          return s ? s.name : '';
+        }).filter(Boolean);
+        return '<div class="card band-card confirmed">' +
+          '<div class="student-row">' +
+            '<div class="student-info">' +
+              '<div class="band-tag">Band</div>' +
+              '<h3>' + band.name + '</h3>' +
+              '<div class="confirmed-details">' + todayLog.time + ' · ' + durationLabel(todayLog.duration) + '</div>' +
+              '<div class="member-list-preview">' + presentNames.join(', ') + '</div>' +
+              '<div class="confirmed-badge">✓ Logged</div>' +
+            '</div>' +
+            '<div class="card-actions">' +
+              '<button class="btn-edit-logged" onclick="openEditBandLesson(' + todayLog.id + ', \'favorites\')">Edit</button>' +
+              '<button class="btn-pencil" onclick="openEditBand(' + band.id + ')">✏️</button>' +
+              '<button class="btn-remove" onclick="removeBand(' + band.id + ')">✕</button>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      }
+      return '<div class="card band-card">' +
+        '<div class="student-row">' +
+          '<div class="student-info">' +
+            '<div class="band-tag">Band</div>' +
+            '<h3>' + band.name + '</h3>' +
+            '<div class="member-list-preview">' + memberNames.join(', ') + '</div>' +
+          '</div>' +
+          '<div class="card-actions">' +
+            '<div class="student-meta" style="text-align:right;margin-right:4px">' +
+              '<span>' + (band.usualTime || '--') + '</span>' +
+              durationLabel(band.duration) +
+            '</div>' +
+            '<button class="btn-log" onclick="openLogBandLesson(' + band.id + ')">Log</button>' +
+            '<button class="btn-pencil" onclick="openEditBand(' + band.id + ')">✏️</button>' +
+            '<button class="btn-remove" onclick="removeBand(' + band.id + ')">✕</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    }
+
+    // ── RENDER FAVORITES ──────────────────────────────
+    function renderFavorites() {
+      const container = document.getElementById('favorites-list');
+      let html = '';
+
+      function renderDayItems(day, isToday) {
+        const dayFavs = favorites.filter(f => f.days.includes(day));
+        const dayBands = bands.filter(b => b.days.includes(day));
+        let items = '';
+        dayFavs.forEach(f => {
+          const s = allStudents.find(st => st.id === f.studentId);
+          if (s) items += studentCard(f, s, isToday);
+        });
+        dayBands.forEach(band => { items += bandCard(band, isToday); });
+        if (!items) items = '<div class="card" style="color:#bbb;font-size:14px;text-align:center;padding:14px">No students</div>';
+        return items;
+      }
+
+      html += '<div class="day-section"><div class="day-label today">📍 Today — ' + todayName + '</div>';
+      html += renderDayItems(todayName, true);
+      html += '</div>';
+
+      DAYS.forEach(day => {
+        if (day === todayName) return;
+        html += '<div class="day-section"><div class="day-label">' + day + '</div>';
+        html += renderDayItems(day, false);
+        html += '</div>';
+      });
+
+      const unassigned = favorites.filter(f => f.days.length === 0);
+      const unassignedBands = bands.filter(b => b.days.length === 0);
+      if (unassigned.length > 0 || unassignedBands.length > 0) {
+        html += '<div class="day-section"><div class="day-label">No day assigned</div>';
+        unassigned.forEach(f => {
+          const s = allStudents.find(st => st.id === f.studentId);
+          if (s) html += studentCard(f, s, false);
+        });
+        unassignedBands.forEach(band => { html += bandCard(band, false); });
+        html += '</div>';
+      }
+
+      container.innerHTML = html;
+    }
+
+    function removeFavorite(id) { favorites = favorites.filter(f => f.studentId !== id); renderFavorites(); }
+    function removeBand(id) { bands = bands.filter(b => b.id !== id); renderFavorites(); }
+
+    function openEditFavorite(studentId) {
+      editingFavoriteId = studentId;
+      const fav = favorites.find(f => f.studentId === studentId);
+      const s = allStudents.find(st => st.id === studentId);
+      selectedDays = [...(fav?.days || [])];
+      document.getElementById('day-step-label').textContent = 'Edit Favorite — Step 1 of 2';
+      document.getElementById('day-modal-title').textContent = 'Days for ' + s.name;
+      document.getElementById('day-modal-back-btn').textContent = 'Cancel';
+      document.querySelectorAll('#student-day-picker .day-pick-btn').forEach(btn => {
+        btn.classList.toggle('selected', selectedDays.includes(btn.dataset.day));
+      });
+      document.getElementById('day-modal').classList.add('open');
+    }
+
+    // ── NOTES ─────────────────────────────────────────
+    function renderNotesList() {
+      const container = document.getElementById('notes-list');
+      const items = [
+        ...favorites.map(f => {
+          const s = allStudents.find(st => st.id === f.studentId);
+          if (!s) return '';
+          const key = 'student-' + s.id;
+          const hasNote = notes[key] && notes[key].trim();
+          return '<div class="notes-list-item" onclick="openNotesPage(\'' + key + '\', \'' + s.name + '\', \'' + (s.parent || 'Adult student') + '\')">' +
+            '<div>' +
+              '<h3>' + s.name + '</h3>' +
+              '<p>' + (s.parent || 'Adult student') + (hasNote ? ' · Has notes' : '') + '</p>' +
+            '</div>' +
+            '<span style="color:#aaa;font-size:20px">›</span>' +
+          '</div>';
+        }),
+        ...bands.map(band => {
+          const key = 'band-' + band.id;
+          const hasNote = notes[key] && notes[key].trim();
+          return '<div class="notes-list-item" onclick="openNotesPage(\'' + key + '\', \'' + band.name + '\', \'Band\')">' +
+            '<div>' +
+              '<div class="band-tag" style="margin-bottom:2px">Band</div>' +
+              '<h3>' + band.name + '</h3>' +
+              '<p>' + band.memberIds.length + ' members' + (hasNote ? ' · Has notes' : '') + '</p>' +
+            '</div>' +
+            '<span style="color:#aaa;font-size:20px">›</span>' +
+          '</div>';
+        })
+      ].join('');
+
+      if (!items) {
+        container.innerHTML = '<div class="empty-state"><p>No favorites yet.</p><p style="font-size:13px">Add students or bands to Favorites to take notes on them.</p></div>';
+      } else {
+        container.innerHTML = items;
+      }
+    }
+
+    function openNotesPage(key, name, subtitle) {
+      currentNotesKey = key;
+      document.getElementById('notes-page-title').textContent = name;
+      document.getElementById('notes-page-subtitle').textContent = subtitle;
+      document.getElementById('notes-textarea').value = notes[key] || '';
+      document.getElementById('notes-saved').textContent = '';
+      document.getElementById('notes-list-view').classList.add('hidden');
+      document.getElementById('notes-page').classList.add('open');
+    }
+
+    function closeNotesPage() {
+      // Auto-save on back
+      if (currentNotesKey) {
+        notes[currentNotesKey] = document.getElementById('notes-textarea').value;
+      }
+      currentNotesKey = null;
+      document.getElementById('notes-page').classList.remove('open');
+      document.getElementById('notes-list-view').classList.remove('hidden');
+      renderNotesList();
+    }
+
+    document.getElementById('notes-textarea').addEventListener('input', () => {
+      if (currentNotesKey) {
+        notes[currentNotesKey] = document.getElementById('notes-textarea').value;
+        document.getElementById('notes-saved').textContent = 'Saved';
+        setTimeout(() => { document.getElementById('notes-saved').textContent = ''; }, 1500);
+      }
+    });
+
+    // ── EARNINGS SUMMARY ──────────────────────────────
+    function earningsSummaryHTML(lessons, label) {
+      const e = calcEarnings(lessons);
+      if (lessons.length === 0) return '';
+      return '<div class="earnings-summary">' +
+        '<div class="earnings-toggle" onclick="this.nextElementSibling.classList.toggle(\'open\')">' +
+          '<div>' +
+            '<div class="earnings-label">' + label + ' earnings</div>' +
+            '<div class="earnings-total">$' + e.total.toFixed(2) + '</div>' +
+          '</div>' +
+          '<span style="color:#aaa;font-size:20px">▾</span>' +
+        '</div>' +
+        '<div class="earnings-detail">' +
+          '<div class="earnings-row"><span>Individual lessons</span><span>$' + e.lessonTotal.toFixed(2) + '</span></div>' +
+          '<div class="earnings-row"><span>Band sessions</span><span>$' + e.bandTotal.toFixed(2) + '</span></div>' +
+          '<div class="earnings-row total-row"><span>Total</span><span>$' + e.total.toFixed(2) + '</span></div>' +
+        '</div>' +
+      '</div>';
+    }
+
+    // ── LOGGED LESSONS ────────────────────────────────
+    function renderLoggedLessons() {
+      const container = document.getElementById('logged-lessons-view');
+      if (loggedLessons.length === 0) {
+        container.innerHTML = '<div class="empty-state"><p>No lessons logged yet.</p></div>';
+        return;
+      }
+
+      const sorted = [...loggedLessons].sort((a,b) => (b.date+b.time).localeCompare(a.date+a.time));
+      const currentMonth = todayISO().slice(0,7);
+      const todayLessons = sorted.filter(l => l.date === todayISO());
+
+      const byMonth = {};
+      sorted.forEach(l => {
+        const mk = monthKey(l.date);
+        if (!byMonth[mk]) byMonth[mk] = [];
+        byMonth[mk].push(l);
+      });
+
+      let html = '';
+
+      // Today section
+      html += '<div style="background:#f0fdf4;border-radius:12px;padding:16px;margin-bottom:24px;border:1px solid #bbf7d0">';
+      html += '<div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#16a34a;margin-bottom:10px">Today — ' + formatDate(todayISO()) + '</div>';
+      if (todayLessons.length === 0) {
+        html += '<div style="color:#86efac;font-size:14px;text-align:center;padding:8px">No lessons logged today</div>';
+      } else {
+        todayLessons.forEach(l => { html += logCard(l); });
+      }
+      html += '</div>';
+
+      // This month earnings + lessons
+      const thisMonthAll = byMonth[currentMonth] || [];
+      html += earningsSummaryHTML(thisMonthAll, monthLabel(currentMonth));
+
+      const thisMonthLessons = thisMonthAll.filter(l => l.date !== todayISO());
+      if (thisMonthLessons.length > 0) {
+        html += '<div class="month-block"><div class="month-heading">' + monthLabel(currentMonth) + '</div>';
+        const byDate = {};
+        thisMonthLessons.forEach(l => {
+          if (!byDate[l.date]) byDate[l.date] = [];
+          byDate[l.date].push(l);
+        });
+        Object.keys(byDate).sort((a,b) => b.localeCompare(a)).forEach(date => {
+          html += '<div class="section-divider">' + formatDate(date) + '</div>';
+          byDate[date].forEach(l => { html += logCard(l); });
+        });
+        html += '</div>';
+      }
+
+      // Past months
+      const pastMonths = Object.keys(byMonth).filter(mk => mk < currentMonth).sort((a,b) => b.localeCompare(a));
+      pastMonths.forEach(mk => {
+        const count = byMonth[mk].length;
+        const e = calcEarnings(byMonth[mk]);
+        html += '<div class="past-month-toggle" onclick="togglePastMonth(\'' + mk + '\')">' +
+          '<span>' + monthLabel(mk) + '</span>' +
+          '<span style="color:#888;font-size:13px">$' + e.total.toFixed(2) + ' · ' + count + ' session' + (count !== 1 ? 's' : '') + ' ▾</span>' +
+          '</div><div class="past-month-content" id="past-' + mk + '">';
+        html += earningsSummaryHTML(byMonth[mk], monthLabel(mk));
+        const byDate = {};
+        byMonth[mk].forEach(l => {
+          if (!byDate[l.date]) byDate[l.date] = [];
+          byDate[l.date].push(l);
+        });
+        Object.keys(byDate).sort((a,b) => b.localeCompare(a)).forEach(date => {
+          html += '<div class="section-divider">' + formatDate(date) + '</div>';
+          byDate[date].forEach(l => { html += logCard(l); });
+        });
+        html += '</div>';
+      });
+
+      container.innerHTML = html;
+    }
+
+    function logCard(l) {
+      const isBand = !!l.bandId;
+      const band = isBand ? bands.find(b => b.id === l.bandId) : null;
+      const s = !isBand ? allStudents.find(st => st.id === l.studentId) : null;
+      const name = isBand ? (band ? band.name : 'Unknown Band') : (s ? s.name : 'Unknown');
+      const sub = isBand ? ((l.presentMemberIds || []).length + ' present') : (s?.parent ? s.parent : 'Adult student');
+      const earnings = isBand ? (l.duration * BAND_RATE) : (l.duration * LESSON_RATE);
+      const onclick = isBand ? 'openEditBandLesson(' + l.id + ', \'logged\')' : 'openEditLesson(' + l.id + ', \'logged\')';
+      return '<div class="log-card" onclick="' + onclick + '">' +
+        '<div class="log-card-info">' +
+          (isBand ? '<div style="font-size:11px;font-weight:700;color:#8b5cf6;text-transform:uppercase">Band</div>' : '') +
+          '<h4>' + name + '</h4>' +
+          '<p>' + l.time + ' · ' + sub + '</p>' +
+        '</div>' +
+        '<div class="log-card-right">' +
+          '<div class="duration">' + durationLabel(l.duration) + '</div>' +
+          '<div class="type-tag" style="color:#22c55e;font-weight:600">$' + earnings.toFixed(2) + '</div>' +
+        '</div>' +
+      '</div>';
+    }
+
+    function togglePastMonth(mk) { document.getElementById('past-' + mk).classList.toggle('open'); }
+
+    // ── EXPORT ────────────────────────────────────────
+    function exportCSV() {
+      const teacherName = document.getElementById('teacher-name-input').value.trim();
+      if (!teacherName) { alert('Please enter your name before exporting.'); return; }
+      const month = document.getElementById('export-month').value;
+      if (!month) { alert('Please select a month to export.'); return; }
+
+      const rows = [['Teacher Name','Student Name','Parent Name','Date','Time','Duration (hrs)','Session Type','Band Name']];
+
+      loggedLessons.filter(l => l.date.startsWith(month)).forEach(l => {
+        if (l.bandId) {
+          const band = bands.find(b => b.id === l.bandId);
+          const presentIds = l.presentMemberIds || band?.memberIds || [];
+          presentIds.forEach(id => {
+            const s = allStudents.find(st => st.id === id);
+            if (s) rows.push([teacherName, s.name, s.parent || '', l.date, l.time, l.duration, 'band', band?.name || '']);
+          });
+        } else {
+          const s = allStudents.find(st => st.id === l.studentId);
+          if (s) rows.push([teacherName, s.name, s.parent || '', l.date, l.time, l.duration, 'individual', '']);
+        }
+      });
+
+      if (rows.length === 1) { alert('No lessons found for that month.'); return; }
+
+      const csv = rows.map(r => r.map(v => '"' + String(v).replace(/"/g, '""') + '"').join(',')).join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = teacherName.replace(/\s/g,'_') + '_' + month + '.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    // ── LOG BAND LESSON ───────────────────────────────
+    function openLogBandLesson(bandId) {
+      const band = bands.find(b => b.id === bandId);
+      editingLessonId = null;
+      editSource = null;
+      document.getElementById('lesson-modal-title').textContent = 'Log — ' + band.name;
+      document.getElementById('lesson-modal-subtitle').textContent = band.memberIds.length + ' members';
+      document.getElementById('lesson-time').value = band.usualTime || nowTime();
+      setDurationPicker('lesson-duration-picker', band.duration || 1);
+      document.getElementById('fg-type').style.display = 'none';
+      renderBandMemberChecklist(band.memberIds, band.memberIds);
+      const assignedDays = band.days || [];
+      if (assignedDays.length === 0) { showBandLessonForm(todayISO(), bandId); }
+      else if (assignedDays.length === 1) { showBandLessonForm(mostRecentDay(assignedDays[0]), bandId); }
+      else { showBandDaySelect(bandId, assignedDays); }
+    }
+
+    function renderBandMemberChecklist(memberIds, checkedIds) {
+      document.getElementById('band-member-checklist').innerHTML =
+        '<p style="font-size:13px;font-weight:600;color:#555;margin-bottom:8px">Who was present?</p>' +
+        memberIds.map(id => {
+          const s = allStudents.find(st => st.id === id);
+          if (!s) return '';
+          return '<div class="member-check-item">' +
+            '<label for="mc-' + id + '">' + s.name + '</label>' +
+            '<input type="checkbox" id="mc-' + id + '" value="' + id + '" ' + (checkedIds.includes(id) ? 'checked' : '') + ' />' +
+          '</div>';
+        }).join('');
+    }
+
+    function showBandLessonForm(date, bandId) {
+      document.getElementById('lesson-date').value = date;
+      document.getElementById('lesson-modal-body').style.display = '';
+      document.getElementById('day-select-options').innerHTML = '';
+      document.getElementById('lesson-modal-actions').innerHTML =
+        '<button class="btn-secondary" onclick="closeLessonModal()">Cancel</button>' +
+        '<button class="btn-primary" onclick="saveBandLesson(' + bandId + ')">Confirm</button>';
+      document.getElementById('lesson-modal').classList.add('open');
+    }
+
+    function showBandDaySelect(bandId, assignedDays) {
+      document.getElementById('lesson-modal-body').style.display = 'none';
+      document.getElementById('lesson-modal-subtitle').textContent = 'Which session do you want to log?';
+      let options = assignedDays.map(day => {
+        const date = mostRecentDay(day);
+        return '<button class="day-select-btn" onclick="selectBandLogDay(' + bandId + ', \'' + date + '\')">' + day + ' — ' + formatDate(date) + '</button>';
+      }).join('');
+      options += '<button class="day-select-btn" onclick="selectBandLogDay(' + bandId + ', \'' + todayISO() + '\')">Other — ' + formatDate(todayISO()) + '</button>';
+      document.getElementById('day-select-options').innerHTML = options;
+      document.getElementById('lesson-modal-actions').innerHTML = '<button class="btn-secondary" onclick="closeLessonModal()">Cancel</button>';
+      document.getElementById('lesson-modal').classList.add('open');
+    }
+
+    function selectBandLogDay(bandId, date) {
+      const band = bands.find(b => b.id === bandId);
+      document.getElementById('day-select-options').innerHTML = '';
+      document.getElementById('lesson-modal-body').style.display = '';
+      renderBandMemberChecklist(band.memberIds, band.memberIds);
+      showBandLessonForm(date, bandId);
+    }
+
+    function saveBandLesson(bandId) {
+      const date = document.getElementById('lesson-date').value;
+      const time = document.getElementById('lesson-time').value;
+      const duration = parseFloat(document.querySelector('#lesson-duration-picker .dur-btn.selected')?.dataset.dur || 1);
+      const presentMemberIds = [...document.querySelectorAll('#band-member-checklist input:checked')].map(c => parseInt(c.value));
+      if (editingLessonId) {
+        loggedLessons = loggedLessons.map(l => l.id === editingLessonId ? { ...l, date, time, duration, presentMemberIds } : l);
+      } else {
+        loggedLessons.push({ id: Date.now(), bandId, date, time, duration, type: 'band', presentMemberIds });
+      }
+      closeLessonModal();
+      renderFavorites();
+      if (editSource === 'logged') renderLoggedLessons();
+    }
+
+    function openEditBandLesson(lessonId, source) {
+      const lesson = loggedLessons.find(l => l.id === lessonId);
+      const band = bands.find(b => b.id === lesson.bandId);
+      editingLessonId = lessonId;
+      editSource = source;
+      document.getElementById('lesson-modal-title').textContent = 'Edit — ' + band.name;
+      document.getElementById('lesson-modal-subtitle').textContent = formatDate(lesson.date);
+      document.getElementById('lesson-modal-body').style.display = '';
+      document.getElementById('day-select-options').innerHTML = '';
+      document.getElementById('fg-type').style.display = 'none';
+      document.getElementById('lesson-date').value = lesson.date;
+      document.getElementById('lesson-time').value = lesson.time;
+      setDurationPicker('lesson-duration-picker', lesson.duration);
+      renderBandMemberChecklist(band.memberIds, lesson.presentMemberIds || band.memberIds);
+      document.getElementById('lesson-modal-actions').innerHTML =
+        '<button class="btn-danger" onclick="deleteLesson(' + lessonId + ')">Delete</button>' +
+        '<button class="btn-primary" onclick="saveBandLesson(' + band.id + ')">Save</button>';
+      document.getElementById('lesson-modal').classList.add('open');
+    }
+
+    // ── LOG INDIVIDUAL LESSON ─────────────────────────
+    function openLogLesson(studentId) {
+      const fav = favorites.find(f => f.studentId === studentId);
+      const s = allStudents.find(st => st.id === studentId);
+      editingLessonId = null;
+      editSource = null;
+      document.getElementById('lesson-modal-title').textContent = 'Log — ' + s.name;
+      document.getElementById('lesson-modal-subtitle').textContent = s.parent ? 'Parent: ' + s.parent : 'Adult student';
+      document.getElementById('lesson-time').value = fav?.usualTime || nowTime();
+      document.getElementById('fg-type').style.display = '';
+      document.getElementById('band-member-checklist').innerHTML = '';
+      setDurationPicker('lesson-duration-picker', fav?.duration || 1);
+      setTypePicker('individual');
+      const assignedDays = fav?.days || [];
+      if (assignedDays.length === 0) { showLessonForm(todayISO(), studentId); }
+      else if (assignedDays.length === 1) { showLessonForm(mostRecentDay(assignedDays[0]), studentId); }
+      else { showDaySelectForLog(studentId, assignedDays); }
+    }
+
+    function showLessonForm(date, studentId) {
+      document.getElementById('lesson-date').value = date;
+      document.getElementById('lesson-modal-body').style.display = '';
+      document.getElementById('day-select-options').innerHTML = '';
+      document.getElementById('lesson-modal-actions').innerHTML =
+        '<button class="btn-secondary" onclick="closeLessonModal()">Cancel</button>' +
+        '<button class="btn-primary" onclick="saveLesson(' + studentId + ')">Confirm</button>';
+      document.getElementById('lesson-modal').classList.add('open');
+    }
+
+    function showDaySelectForLog(studentId, assignedDays) {
+      document.getElementById('lesson-modal-body').style.display = 'none';
+      document.getElementById('lesson-modal-subtitle').textContent = 'Which day do you want to log?';
+      let options = assignedDays.map(day => {
+        const date = mostRecentDay(day);
+        return '<button class="day-select-btn" onclick="selectLogDay(' + studentId + ', \'' + date + '\')">' + day + ' — ' + formatDate(date) + '</button>';
+      }).join('');
+      options += '<button class="day-select-btn" onclick="selectLogDay(' + studentId + ', \'' + todayISO() + '\')">Other — ' + formatDate(todayISO()) + '</button>';
+      document.getElementById('day-select-options').innerHTML = options;
+      document.getElementById('lesson-modal-actions').innerHTML = '<button class="btn-secondary" onclick="closeLessonModal()">Cancel</button>';
+      document.getElementById('lesson-modal').classList.add('open');
+    }
+
+    function selectLogDay(studentId, date) {
+      document.getElementById('day-select-options').innerHTML = '';
+      document.getElementById('lesson-modal-body').style.display = '';
+      showLessonForm(date, studentId);
+    }
+
+    function openEditLesson(lessonId, source) {
+      const lesson = loggedLessons.find(l => l.id === lessonId);
+      const s = allStudents.find(st => st.id === lesson.studentId);
+      editingLessonId = lessonId;
+      editSource = source;
+      document.getElementById('lesson-modal-title').textContent = 'Edit — ' + s.name;
+      document.getElementById('lesson-modal-subtitle').textContent = formatDate(lesson.date);
+      document.getElementById('lesson-modal-body').style.display = '';
+      document.getElementById('day-select-options').innerHTML = '';
+      document.getElementById('fg-type').style.display = '';
+      document.getElementById('band-member-checklist').innerHTML = '';
+      document.getElementById('lesson-date').value = lesson.date;
+      document.getElementById('lesson-time').value = lesson.time;
+      setDurationPicker('lesson-duration-picker', lesson.duration);
+      setTypePicker(lesson.type);
+      document.getElementById('lesson-modal-actions').innerHTML =
+        '<button class="btn-danger" onclick="deleteLesson(' + lessonId + ')">Delete</button>' +
+        '<button class="btn-primary" onclick="saveLesson(' + lesson.studentId + ')">Save</button>';
+      document.getElementById('lesson-modal').classList.add('open');
+    }
+
+    function saveLesson(studentId) {
+      const date = document.getElementById('lesson-date').value;
+      const time = document.getElementById('lesson-time').value;
+      const duration = parseFloat(document.querySelector('#lesson-duration-picker .dur-btn.selected')?.dataset.dur || 1);
+      const type = document.querySelector('.type-btn.selected')?.dataset.type || 'individual';
+      if (editingLessonId) {
+        loggedLessons = loggedLessons.map(l => l.id === editingLessonId ? { ...l, date, time, duration, type } : l);
+      } else {
+        loggedLessons.push({ id: Date.now(), studentId, date, time, duration, type });
+      }
+      closeLessonModal();
+      renderFavorites();
+      if (editSource === 'logged') renderLoggedLessons();
+    }
+
+    function deleteLesson(lessonId) {
+      loggedLessons = loggedLessons.filter(l => l.id !== lessonId);
+      closeLessonModal();
+      renderLoggedLessons();
+      if (editSource === 'logged') renderLoggedLessons();
+    }
+
+    function closeLessonModal() {
+      document.getElementById('lesson-modal').classList.remove('open');
+      document.getElementById('lesson-modal-body').style.display = '';
+      document.getElementById('day-select-options').innerHTML = '';
+      document.getElementById('band-member-checklist').innerHTML = '';
+      document.getElementById('fg-type').style.display = '';
+      editingLessonId = null;
+      editSource = null;
+    }
+
+    // ── PICKERS ───────────────────────────────────────
+    function setDurationPicker(pickerId, value) {
+      document.querySelectorAll('#' + pickerId + ' .dur-btn').forEach(btn => {
+        btn.classList.toggle('selected', parseFloat(btn.dataset.dur) === value);
+      });
+    }
+
+    document.querySelectorAll('.dur-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.closest('.duration-picker').querySelectorAll('.dur-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+      });
+    });
+
+    function setTypePicker(type) {
+      document.querySelectorAll('.type-btn').forEach(btn => {
+        btn.classList.toggle('selected', btn.dataset.type === type);
+      });
+    }
+
+    document.querySelectorAll('.type-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+      });
+    });
+
+    // ── ROSTER MODAL ──────────────────────────────────
+    function openRosterModal() {
+      document.querySelector('#roster-modal .search-input').value = '';
+      renderRosterList('');
+      document.getElementById('roster-modal').classList.add('open');
+    }
+
+    function closeRosterModal() { document.getElementById('roster-modal').classList.remove('open'); }
+    function filterRoster(query) { renderRosterList(query); }
+
+    function renderRosterList(query) {
+      const favIds = favorites.map(f => f.studentId);
+      const filtered = allStudents.filter(s =>
+        s.name.toLowerCase().includes(query.toLowerCase()) && !favIds.includes(s.id)
+      );
+      const container = document.getElementById('roster-list');
+      if (filtered.length === 0) {
+        container.innerHTML = '<p style="color:#aaa;text-align:center;padding:20px">No students found</p>';
+        return;
+      }
+      container.innerHTML = filtered.map(s =>
+        '<div class="roster-item">' +
+          '<div><div style="font-weight:600">' + s.name + '</div>' +
+          '<div style="font-size:13px;color:#888">' + (s.parent ? s.parent : 'Adult student') + '</div></div>' +
+          '<button class="btn-primary btn-sm" onclick="selectStudentForFavorite(' + s.id + ')">Add</button>' +
+        '</div>'
+      ).join('');
+    }
+
+    // ── STUDENT DAY PICKER ────────────────────────────
+    function selectStudentForFavorite(id) {
+      pendingStudent = id;
+      editingFavoriteId = null;
+      selectedDays = [];
+      const s = allStudents.find(st => st.id === id);
+      document.getElementById('day-step-label').textContent = 'Step 2 of 3';
+      document.getElementById('day-modal-title').textContent = 'When do you teach ' + s.name + '?';
+      document.getElementById('day-modal-back-btn').textContent = 'Cancel';
+      document.querySelectorAll('#student-day-picker .day-pick-btn').forEach(btn => btn.classList.remove('selected'));
+      closeRosterModal();
+      document.getElementById('day-modal').classList.add('open');
+    }
+
+    document.querySelectorAll('#student-day-picker .day-pick-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const day = btn.dataset.day;
+        if (selectedDays.includes(day)) {
+          selectedDays = selectedDays.filter(d => d !== day);
+          btn.classList.remove('selected');
+        } else {
+          selectedDays.push(day);
+          btn.classList.add('selected');
+        }
+      });
+    });
+
+    function closeDayModal() {
+      document.getElementById('day-modal').classList.remove('open');
+      pendingStudent = null;
+      editingFavoriteId = null;
+    }
+
+    function goToTimeDuration() {
+      const id = editingFavoriteId || pendingStudent;
+      const s = allStudents.find(st => st.id === id);
+      const fav = editingFavoriteId ? favorites.find(f => f.studentId === editingFavoriteId) : null;
+      document.getElementById('time-step-label').textContent = editingFavoriteId ? 'Edit Favorite — Step 2 of 2' : 'Step 3 of 3';
+      document.getElementById('time-modal-title').textContent = s.name + "'s usual lesson";
+      document.getElementById('usual-time').value = fav?.usualTime || nowTime();
+      document.getElementById('confirm-fav-btn').textContent = editingFavoriteId ? 'Save Changes' : 'Add to Favorites';
+      setDurationPicker('time-modal-duration', fav?.duration || 1);
+      document.getElementById('day-modal').classList.remove('open');
+      document.getElementById('time-modal').classList.add('open');
+    }
+
+    function backToDayModal() {
+      document.getElementById('time-modal').classList.remove('open');
+      document.getElementById('day-modal').classList.add('open');
+    }
+
+    function confirmAddFavorite() {
+      const id = editingFavoriteId || pendingStudent;
+      if (!id) return;
+      const usualTime = document.getElementById('usual-time').value;
+      const dur = parseFloat(document.querySelector('#time-modal-duration .dur-btn.selected')?.dataset.dur || 1);
+      if (editingFavoriteId) {
+        favorites = favorites.map(f =>
+          f.studentId === editingFavoriteId ? { ...f, days: [...selectedDays], usualTime, duration: dur } : f
+        );
+      } else {
+        favorites.push({ studentId: id, days: [...selectedDays], usualTime, duration: dur });
+      }
+      pendingStudent = null;
+      editingFavoriteId = null;
+      document.getElementById('time-modal').classList.remove('open');
+      renderFavorites();
+    }
+
+    // ── CREATE BAND ───────────────────────────────────
+    function openCreateBandModal() {
+      pendingBand = { name: '', memberIds: [], days: [], usualTime: '', duration: 1 };
+      editingBandId = null;
+      bandSelectedDays = [];
+      document.getElementById('band-name-input').value = '';
+      renderBandMemberSelect([]);
+      document.getElementById('create-band-modal').classList.add('open');
+    }
+
+    function closeCreateBandModal() { document.getElementById('create-band-modal').classList.remove('open'); }
+
+    function renderBandMemberSelect(selectedIds) {
+      document.getElementById('band-member-select').innerHTML = allStudents.map(s =>
+        '<div class="roster-item">' +
+          '<label style="font-weight:500;font-size:15px">' + s.name +
+            (s.parent ? ' <span style="color:#aaa;font-size:12px">(' + s.parent + ')</span>' : '') +
+          '</label>' +
+          '<input type="checkbox" value="' + s.id + '" ' + (selectedIds.includes(s.id) ? 'checked' : '') + ' style="width:20px;height:20px;cursor:pointer" />' +
+        '</div>'
+      ).join('');
+    }
+
+    function goToBandDayPicker() {
+      const name = document.getElementById('band-name-input').value.trim();
+      if (!name) { alert('Please enter a band name.'); return; }
+      const checked = [...document.querySelectorAll('#band-member-select input:checked')];
+      if (checked.length === 0) { alert('Please select at least one member.'); return; }
+      pendingBand.name = name;
+      pendingBand.memberIds = checked.map(c => parseInt(c.value));
+      bandSelectedDays = editingBandId ? [...(bands.find(b => b.id === editingBandId)?.days || [])] : [];
+      document.getElementById('band-day-title').textContent = 'When does ' + name + ' meet?';
+      document.querySelectorAll('#band-day-picker .day-pick-btn').forEach(btn => {
+        btn.classList.toggle('selected', bandSelectedDays.includes(btn.dataset.day));
+      });
+      document.getElementById('create-band-modal').classList.remove('open');
+      document.getElementById('band-day-modal').classList.add('open');
+    }
+
+    function backToCreateBand() {
+      document.getElementById('band-day-modal').classList.remove('open');
+      document.getElementById('create-band-modal').classList.add('open');
+    }
+
+    document.querySelectorAll('#band-day-picker .day-pick-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const day = btn.dataset.day;
+        if (bandSelectedDays.includes(day)) {
+          bandSelectedDays = bandSelectedDays.filter(d => d !== day);
+          btn.classList.remove('selected');
+        } else {
+          bandSelectedDays.push(day);
+          btn.classList.add('selected');
+        }
+      });
+    });
+
+    function goToBandTimePicker() {
+      const band = editingBandId ? bands.find(b => b.id === editingBandId) : null;
+      document.getElementById('band-time-title').textContent = pendingBand.name + ' — usual session';
+      document.getElementById('band-usual-time').value = band?.usualTime || nowTime();
+      document.getElementById('confirm-band-btn').textContent = editingBandId ? 'Save Changes' : 'Add Band';
+      setDurationPicker('band-time-duration', band?.duration || 1);
+      document.getElementById('band-day-modal').classList.remove('open');
+      document.getElementById('band-time-modal').classList.add('open');
+    }
+
+    function backToBandDayPicker() {
+      document.getElementById('band-time-modal').classList.remove('open');
+      document.getElementById('band-day-modal').classList.add('open');
+    }
+
+    function confirmBand() {
+      const usualTime = document.getElementById('band-usual-time').value;
+      const dur = parseFloat(document.querySelector('#band-time-duration .dur-btn.selected')?.dataset.dur || 1);
+      if (editingBandId) {
+        bands = bands.map(b => b.id === editingBandId
+          ? { ...b, name: pendingBand.name, memberIds: pendingBand.memberIds, days: [...bandSelectedDays], usualTime, duration: dur }
+          : b
+        );
+      } else {
+        bands.push({ id: Date.now(), name: pendingBand.name, memberIds: pendingBand.memberIds, days: [...bandSelectedDays], usualTime, duration: dur });
+      }
+      editingBandId = null;
+      document.getElementById('band-time-modal').classList.remove('open');
+      renderFavorites();
+    }
+
+    function openEditBand(bandId) {
+      const band = bands.find(b => b.id === bandId);
+      editingBandId = bandId;
+      pendingBand = { name: band.name, memberIds: [...band.memberIds], days: [...band.days], usualTime: band.usualTime, duration: band.duration };
+      document.getElementById('band-name-input').value = band.name;
+      renderBandMemberSelect(band.memberIds);
+      document.getElementById('create-band-modal').classList.add('open');
+    }
+
+    // Set default export month to current month
+    const now = new Date();
+    document.getElementById('export-month').value = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
+
+    renderFavorites();
+  </script>
+
+</body>
+</html>
