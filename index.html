@@ -81,24 +81,15 @@
     .roster-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
     .roster-item:last-child { border-bottom: none; }
     .step-indicator { font-size: 12px; color: #aaa; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
-    .log-card { background: #fff; border-radius: 10px; padding: 14px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
-    .log-card-info h4 { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
-    .log-card-info p { font-size: 13px; color: #888; }
-    .log-card-right { text-align: right; }
-    .log-card-right .duration { font-size: 15px; font-weight: 700; }
-    .log-card-right .type-tag { font-size: 11px; color: #22c55e; font-weight: 600; }
-    .section-divider { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #888; margin-bottom: 12px; margin-top: 16px; }
-    .empty-state { text-align: center; padding: 40px 20px; color: #aaa; }
-    .empty-state p { margin-bottom: 16px; font-size: 15px; }
-    .day-select-btn { width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 10px; background: #fff; font-size: 15px; cursor: pointer; text-align: left; margin-bottom: 8px; }
     .member-check-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
     .member-check-item:last-child { border-bottom: none; }
-    .member-check-item label { font-size: 15px; font-weight: 500; cursor: pointer; }
+    .member-check-item label { font-size: 15px; font-weight: 500; }
     .member-check-item input[type=checkbox] { width: 20px; height: 20px; cursor: pointer; }
     .member-list-preview { font-size: 12px; color: #888; margin-top: 2px; }
+    .day-select-btn { width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 10px; background: #fff; font-size: 15px; cursor: pointer; text-align: left; margin-bottom: 8px; }
     .earnings-summary { background: #fff; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
     .earnings-toggle { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-    .earnings-total { font-size: 28px; font-weight: 800; color: #1a1a1a; }
+    .earnings-total { font-size: 28px; font-weight: 800; }
     .earnings-label { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
     .earnings-detail { margin-top: 16px; display: none; }
     .earnings-detail.open { display: block; }
@@ -110,7 +101,6 @@
     .notes-list-item p { font-size: 13px; color: #888; }
     .notes-page { display: none; }
     .notes-page.open { display: block; }
-    .notes-list-view { display: block; }
     .notes-list-view.hidden { display: none; }
     .notes-back-btn { display: flex; align-items: center; gap: 8px; background: none; border: none; font-size: 15px; font-weight: 600; cursor: pointer; margin-bottom: 20px; color: #1a1a1a; }
     .notes-textarea { width: 100%; min-height: 400px; padding: 16px; border: 1px solid #ddd; border-radius: 12px; font-size: 15px; font-family: inherit; resize: vertical; line-height: 1.6; }
@@ -118,12 +108,38 @@
     .notes-saved { font-size: 12px; color: #aaa; text-align: right; margin-top: 8px; }
     .export-card { background: #fff; border-radius: 12px; padding: 20px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
     .export-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 12px; }
-
-    /* Month selector */
     .month-selector { background: #fff; border-radius: 12px; padding: 14px 16px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); display: flex; align-items: center; gap: 12px; }
     .month-selector select { flex: 1; padding: 8px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; font-weight: 600; background: #f5f5f5; cursor: pointer; }
-    .month-selector select:focus { outline: none; border-color: #1a1a1a; }
-    .month-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; flex-shrink: 0; }
+
+    /* Logged lessons redesign */
+    .today-block { background: #f0fdf4; border-radius: 12px; padding: 16px; margin-bottom: 20px; border: 1px solid #bbf7d0; }
+    .today-block-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #16a34a; margin-bottom: 12px; }
+    .today-log-card { background: #fff; border-radius: 10px; padding: 14px 16px; margin-bottom: 8px; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.06); border-left: 3px solid #22c55e; }
+    .today-log-card.band { border-left-color: #8b5cf6; }
+    .today-log-name { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .today-log-meta { font-size: 13px; color: #666; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+    .today-log-earnings { font-size: 13px; font-weight: 700; color: #22c55e; margin-left: auto; }
+
+    .date-group { margin-bottom: 12px; }
+    .date-group-header { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; cursor: pointer; border-bottom: 1px solid #e5e5e5; margin-bottom: 6px; }
+    .date-group-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #888; }
+    .date-group-summary { font-size: 12px; color: #aaa; }
+    .date-group-content { overflow: hidden; }
+    .date-group-content.collapsed { display: none; }
+
+    /* Compact log cards for past days - height based on duration */
+    .compact-log-card { background: #fff; border-radius: 8px; margin-bottom: 4px; cursor: pointer; box-shadow: 0 1px 2px rgba(0,0,0,0.05); border-left: 3px solid #22c55e; display: flex; align-items: stretch; overflow: hidden; }
+    .compact-log-card.band { border-left-color: #8b5cf6; }
+    .compact-log-inner { padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; width: 100%; }
+    .compact-log-left { display: flex; flex-direction: column; gap: 2px; }
+    .compact-log-name { font-size: 14px; font-weight: 600; }
+    .compact-log-time { font-size: 12px; color: #888; }
+    .compact-log-right { text-align: right; flex-shrink: 0; }
+    .compact-log-dur { font-size: 13px; font-weight: 700; }
+    .compact-log-earn { font-size: 11px; color: #22c55e; font-weight: 600; }
+
+    .empty-state { text-align: center; padding: 40px 20px; color: #aaa; }
+    .empty-state p { margin-bottom: 16px; font-size: 15px; }
   </style>
 </head>
 <body>
@@ -145,7 +161,7 @@
         <label>Confirm password</label>
         <input type="password" id="login-confirm" placeholder="Confirm password" />
       </div>
-      <button class="login-btn" id="login-btn" onclick="handleAuth()">Sign In</button>
+      <button class="login-btn" onclick="handleAuth()">Sign In</button>
       <div class="login-error" id="login-error"></div>
       <div class="login-switch">
         <div id="login-switch-text">Don't have an account? <span onclick="toggleAuthMode()">Create one</span></div>
@@ -381,6 +397,18 @@
     </div>
   </div>
 
+  <!-- DUPLICATE WARNING MODAL -->
+  <div class="modal-overlay" id="duplicate-modal">
+    <div class="modal">
+      <h3>Already logged today</h3>
+      <p class="modal-subtitle" id="duplicate-modal-subtitle"></p>
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="closeDuplicateModal()">Cancel</button>
+        <button class="btn-primary" id="duplicate-confirm-btn">Log Another</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     // ── AUTH ──────────────────────────────────────────
     let currentUser = null;
@@ -389,7 +417,7 @@
     function toggleAuthMode() {
       isSignUp = !isSignUp;
       document.getElementById('login-subtitle').textContent = isSignUp ? 'Create your account' : 'Sign in to your account';
-      document.getElementById('login-btn').textContent = isSignUp ? 'Create Account' : 'Sign In';
+      document.querySelector('.login-btn').textContent = isSignUp ? 'Create Account' : 'Sign In';
       document.getElementById('login-confirm-group').style.display = isSignUp ? '' : 'none';
       document.getElementById('login-switch-text').innerHTML = isSignUp
         ? 'Already have an account? <span onclick="toggleAuthMode()">Sign in</span>'
@@ -515,11 +543,19 @@
       return result.toISOString().split('T')[0];
     }
 
+    function lessonEarnings(l) {
+      if (l.bandId) {
+        const presentCount = (l.presentMemberIds || []).length;
+        return l.duration * BAND_RATE * presentCount;
+      }
+      return l.duration * LESSON_RATE;
+    }
+
     function calcEarnings(lessons) {
       let lessonTotal = 0, bandTotal = 0;
       lessons.forEach(l => {
-        if (l.bandId) bandTotal += l.duration * BAND_RATE;
-        else lessonTotal += l.duration * LESSON_RATE;
+        if (l.bandId) bandTotal += lessonEarnings(l);
+        else lessonTotal += lessonEarnings(l);
       });
       return { lessonTotal, bandTotal, total: lessonTotal + bandTotal };
     }
@@ -528,6 +564,14 @@
       const months = new Set(allLessons.map(l => l.date.slice(0,7)));
       months.add(currentMonthKey());
       return [...months].sort((a,b) => b.localeCompare(a));
+    }
+
+    // Minimum card height per duration
+    function cardHeightForDuration(d) {
+      if (d <= 0.5) return 44;
+      if (d <= 0.75) return 52;
+      if (d <= 1) return 62;
+      return 76;
     }
 
     // ── TABS ──────────────────────────────────────────
@@ -546,34 +590,25 @@
 
     // ── STUDENT CARD ──────────────────────────────────
     function studentCard(f, s, isToday) {
-      const lesson = allLessons.find(l => l.studentId === f.studentId && l.date === todayISO() && !l.bandId);
-      if (isToday && lesson) {
-        return '<div class="card confirmed">' +
-          '<div class="student-row">' +
-            '<div class="student-info">' +
-              '<h3>' + s.name + '</h3>' +
-              '<div class="confirmed-details">' + lesson.time + ' · ' + durationLabel(lesson.duration) + ' · ' + lesson.type + '</div>' +
-              '<div class="confirmed-badge">✓ Logged</div>' +
-            '</div>' +
-            '<div class="card-actions">' +
-              '<button class="btn-edit-logged" onclick="openEditLesson(' + lesson.id + ', \'favorites\')">Edit</button>' +
-              '<button class="btn-pencil" onclick="openEditFavorite(' + s.id + ')">✏️</button>' +
-              '<button class="btn-remove" onclick="removeFavorite(' + s.id + ')">✕</button>' +
-            '</div>' +
-          '</div>' +
-        '</div>';
+      const todayLessons = allLessons.filter(l => l.studentId === f.studentId && l.date === todayISO() && !l.bandId);
+      const hasLoggedToday = todayLessons.length > 0;
+
+      let loggedBadge = '';
+      if (isToday && hasLoggedToday) {
+        loggedBadge = todayLessons.map(l =>
+          '<div class="confirmed-details">' + l.time + ' · ' + durationLabel(l.duration) + ' · ' + l.type +
+          ' <button class="btn-edit-logged" style="margin-left:6px" onclick="event.stopPropagation();openEditLesson(' + l.id + ', \'favorites\')">Edit</button></div>'
+        ).join('') + '<div class="confirmed-badge">✓ Logged' + (todayLessons.length > 1 ? ' (' + todayLessons.length + ')' : '') + '</div>';
       }
-      return '<div class="card">' +
+
+      return '<div class="card' + (isToday && hasLoggedToday ? ' confirmed' : '') + '">' +
         '<div class="student-row">' +
           '<div class="student-info">' +
             '<h3>' + s.name + '</h3>' +
-            '<p>' + (s.parent ? s.parent : 'Adult student') + '</p>' +
+            (isToday && hasLoggedToday ? loggedBadge : '<p>' + (s.parent ? s.parent : 'Adult student') + '</p>') +
           '</div>' +
           '<div class="card-actions">' +
-            '<div class="student-meta" style="text-align:right;margin-right:4px">' +
-              '<span>' + (f.usualTime || '--') + '</span>' +
-              durationLabel(f.duration) +
-            '</div>' +
+            (!isToday || !hasLoggedToday ? '<div class="student-meta" style="text-align:right;margin-right:4px"><span>' + (f.usualTime || '--') + '</span>' + durationLabel(f.duration) + '</div>' : '') +
             '<button class="btn-log" onclick="openLogLesson(' + f.studentId + ')">Log</button>' +
             '<button class="btn-pencil" onclick="openEditFavorite(' + s.id + ')">✏️</button>' +
             '<button class="btn-remove" onclick="removeFavorite(' + s.id + ')">✕</button>' +
@@ -585,38 +620,28 @@
     // ── BAND CARD ─────────────────────────────────────
     function bandCard(band, isToday) {
       const memberNames = band.memberIds.map(id => { const s = allStudents.find(st => st.id === id); return s ? s.name : ''; }).filter(Boolean);
-      const todayLog = allLessons.find(l => l.bandId === band.id && l.date === todayISO());
-      if (isToday && todayLog) {
-        const presentNames = (todayLog.presentMemberIds || band.memberIds).map(id => { const s = allStudents.find(st => st.id === id); return s ? s.name : ''; }).filter(Boolean);
-        return '<div class="card band-card confirmed">' +
-          '<div class="student-row">' +
-            '<div class="student-info">' +
-              '<div class="band-tag">Band</div>' +
-              '<h3>' + band.name + '</h3>' +
-              '<div class="confirmed-details">' + todayLog.time + ' · ' + durationLabel(todayLog.duration) + '</div>' +
-              '<div class="member-list-preview">' + presentNames.join(', ') + '</div>' +
-              '<div class="confirmed-badge">✓ Logged</div>' +
-            '</div>' +
-            '<div class="card-actions">' +
-              '<button class="btn-edit-logged" onclick="openEditBandLesson(' + todayLog.id + ', \'favorites\')">Edit</button>' +
-              '<button class="btn-pencil" onclick="openEditBand(' + band.id + ')">✏️</button>' +
-              '<button class="btn-remove" onclick="removeBand(' + band.id + ')">✕</button>' +
-            '</div>' +
-          '</div>' +
-        '</div>';
+      const todayLogs = allLessons.filter(l => l.bandId === band.id && l.date === todayISO());
+      const hasLoggedToday = todayLogs.length > 0;
+
+      let loggedBadge = '';
+      if (isToday && hasLoggedToday) {
+        loggedBadge = todayLogs.map(l => {
+          const presentNames = (l.presentMemberIds || band.memberIds).map(id => { const s = allStudents.find(st => st.id === id); return s ? s.name : ''; }).filter(Boolean);
+          return '<div class="confirmed-details">' + l.time + ' · ' + durationLabel(l.duration) +
+            ' <button class="btn-edit-logged" style="margin-left:6px" onclick="event.stopPropagation();openEditBandLesson(' + l.id + ', \'favorites\')">Edit</button></div>' +
+            '<div class="member-list-preview">' + presentNames.join(', ') + '</div>';
+        }).join('') + '<div class="confirmed-badge">✓ Logged' + (todayLogs.length > 1 ? ' (' + todayLogs.length + ')' : '') + '</div>';
       }
-      return '<div class="card band-card">' +
+
+      return '<div class="card band-card' + (isToday && hasLoggedToday ? ' confirmed' : '') + '">' +
         '<div class="student-row">' +
           '<div class="student-info">' +
             '<div class="band-tag">Band</div>' +
             '<h3>' + band.name + '</h3>' +
-            '<div class="member-list-preview">' + memberNames.join(', ') + '</div>' +
+            (isToday && hasLoggedToday ? loggedBadge : '<div class="member-list-preview">' + memberNames.join(', ') + '</div>') +
           '</div>' +
           '<div class="card-actions">' +
-            '<div class="student-meta" style="text-align:right;margin-right:4px">' +
-              '<span>' + (band.usualTime || '--') + '</span>' +
-              durationLabel(band.duration) +
-            '</div>' +
+            (!isToday || !hasLoggedToday ? '<div class="student-meta" style="text-align:right;margin-right:4px"><span>' + (band.usualTime || '--') + '</span>' + durationLabel(band.duration) + '</div>' : '') +
             '<button class="btn-log" onclick="openLogBandLesson(' + band.id + ')">Log</button>' +
             '<button class="btn-pencil" onclick="openEditBand(' + band.id + ')">✏️</button>' +
             '<button class="btn-remove" onclick="removeBand(' + band.id + ')">✕</button>' +
@@ -645,6 +670,7 @@
         if (day === todayName) return;
         html += '<div class="day-section"><div class="day-label">' + day + '</div>' + renderDayItems(day, false) + '</div>';
       });
+
       const unassigned = favorites.filter(f => f.days.length === 0);
       const unassignedBands = bands.filter(b => b.days.length === 0);
       if (unassigned.length > 0 || unassignedBands.length > 0) {
@@ -653,6 +679,7 @@
         unassignedBands.forEach(band => { html += bandCard(band, false); });
         html += '</div>';
       }
+
       container.innerHTML = html;
     }
 
@@ -671,197 +698,118 @@
       document.getElementById('day-modal').classList.add('open');
     }
 
-    // ── LOGGED LESSONS ────────────────────────────────
-    function renderLoggedLessons() {
-      const container = document.getElementById('logged-lessons-view');
-      const months = getAvailableMonths();
-      if (!selectedViewMonth || !months.includes(selectedViewMonth)) selectedViewMonth = currentMonthKey();
+    // ── DUPLICATE WARNING ─────────────────────────────
+    function closeDuplicateModal() { document.getElementById('duplicate-modal').classList.remove('open'); }
 
-      const isCurrentMonth = selectedViewMonth === currentMonthKey();
-      const monthLessons = allLessons.filter(l => l.date.startsWith(selectedViewMonth));
-      const todayLessons = monthLessons.filter(l => l.date === todayISO());
-      const e = calcEarnings(monthLessons);
+    function showDuplicateWarning(name, onConfirm) {
+      document.getElementById('duplicate-modal-subtitle').textContent = 'You already logged a lesson for ' + name + ' today. Log another anyway?';
+      const btn = document.getElementById('duplicate-confirm-btn');
+      btn.onclick = () => { closeDuplicateModal(); onConfirm(); };
+      document.getElementById('duplicate-modal').classList.add('open');
+    }
 
-      let html = '';
+    // ── LOG INDIVIDUAL LESSON ─────────────────────────
+    function openLogLesson(studentId) {
+      const fav = favorites.find(f => f.studentId === studentId);
+      const s = allStudents.find(st => st.id === studentId);
+      const hasToday = allLessons.some(l => l.studentId === studentId && l.date === todayISO() && !l.bandId);
 
-      // Month selector
-      html += '<div class="month-selector">' +
-        '<div class="month-dot"></div>' +
-        '<select onchange="selectedViewMonth=this.value;renderLoggedLessons()">' +
-        months.map(m => '<option value="' + m + '"' + (m === selectedViewMonth ? ' selected' : '') + '>' + monthLabel(m) + (m === currentMonthKey() ? ' (current)' : '') + '</option>').join('') +
-        '</select>' +
-      '</div>';
-
-      // Earnings
-      if (monthLessons.length > 0) {
-        html += '<div class="earnings-summary">' +
-          '<div class="earnings-toggle" onclick="this.nextElementSibling.classList.toggle(\'open\')">' +
-            '<div><div class="earnings-label">' + monthLabel(selectedViewMonth) + ' earnings</div>' +
-            '<div class="earnings-total">$' + e.total.toFixed(2) + '</div></div>' +
-            '<span style="color:#aaa;font-size:20px">▾</span>' +
-          '</div>' +
-          '<div class="earnings-detail">' +
-            '<div class="earnings-row"><span>Individual lessons</span><span>$' + e.lessonTotal.toFixed(2) + '</span></div>' +
-            '<div class="earnings-row"><span>Band sessions</span><span>$' + e.bandTotal.toFixed(2) + '</span></div>' +
-            '<div class="earnings-row total-row"><span>Total</span><span>$' + e.total.toFixed(2) + '</span></div>' +
-          '</div>' +
-        '</div>';
-      }
-
-      // Today section (only if viewing current month)
-      if (isCurrentMonth) {
-        html += '<div style="background:#f0fdf4;border-radius:12px;padding:16px;margin-bottom:20px;border:1px solid #bbf7d0">';
-        html += '<div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#16a34a;margin-bottom:10px">Today — ' + formatDate(todayISO()) + '</div>';
-        if (todayLessons.length === 0) {
-          html += '<div style="color:#86efac;font-size:14px;text-align:center;padding:8px">No lessons logged today</div>';
-        } else {
-          todayLessons.forEach(l => { html += logCard(l); });
-        }
-        html += '</div>';
-      }
-
-      // Rest of month grouped by date
-      const otherLessons = isCurrentMonth
-        ? monthLessons.filter(l => l.date !== todayISO())
-        : monthLessons;
-
-      if (otherLessons.length === 0 && !isCurrentMonth) {
-        html += '<div class="empty-state"><p>No lessons logged for this month.</p></div>';
+      if (hasToday) {
+        showDuplicateWarning(s.name, () => proceedLogLesson(studentId, fav, s));
       } else {
-        const byDate = {};
-        otherLessons.sort((a,b) => (b.date+b.time).localeCompare(a.date+a.time)).forEach(l => {
-          if (!byDate[l.date]) byDate[l.date] = [];
-          byDate[l.date].push(l);
-        });
-        Object.keys(byDate).sort((a,b) => b.localeCompare(a)).forEach(date => {
-          html += '<div class="section-divider">' + formatDate(date) + '</div>';
-          byDate[date].forEach(l => { html += logCard(l); });
-        });
+        proceedLogLesson(studentId, fav, s);
       }
-
-      container.innerHTML = html;
     }
 
-    function logCard(l) {
-      const isBand = !!l.bandId;
-      const band = isBand ? bands.find(b => b.id === l.bandId) : null;
-      const s = !isBand ? allStudents.find(st => st.id === l.studentId) : null;
-      const name = isBand ? (band ? band.name : 'Unknown Band') : (s ? s.name : 'Unknown');
-      const sub = isBand ? ((l.presentMemberIds || []).length + ' present') : (s?.parent ? s.parent : 'Adult student');
-      const earnings = isBand ? (l.duration * BAND_RATE) : (l.duration * LESSON_RATE);
-      const onclick = isBand ? 'openEditBandLesson(' + l.id + ', \'logged\')' : 'openEditLesson(' + l.id + ', \'logged\')';
-      return '<div class="log-card" onclick="' + onclick + '">' +
-        '<div class="log-card-info">' +
-          (isBand ? '<div style="font-size:11px;font-weight:700;color:#8b5cf6;text-transform:uppercase">Band</div>' : '') +
-          '<h4>' + name + '</h4>' +
-          '<p>' + l.time + ' · ' + sub + '</p>' +
-        '</div>' +
-        '<div class="log-card-right">' +
-          '<div class="duration">' + durationLabel(l.duration) + '</div>' +
-          '<div class="type-tag">$' + earnings.toFixed(2) + '</div>' +
-        '</div>' +
-      '</div>';
+    function proceedLogLesson(studentId, fav, s) {
+      editingLessonId = null; editSource = null;
+      document.getElementById('lesson-modal-title').textContent = 'Log — ' + s.name;
+      document.getElementById('lesson-modal-subtitle').textContent = s.parent ? 'Parent: ' + s.parent : 'Adult student';
+      document.getElementById('lesson-time').value = fav?.usualTime || nowTime();
+      document.getElementById('fg-type').style.display = '';
+      document.getElementById('band-member-checklist').innerHTML = '';
+      setDurationPicker('lesson-duration-picker', fav?.duration || 1);
+      setTypePicker('individual');
+      const assignedDays = fav?.days || [];
+      if (assignedDays.length === 0) showLessonForm(todayISO(), studentId);
+      else if (assignedDays.length === 1) showLessonForm(mostRecentDay(assignedDays[0]), studentId);
+      else showDaySelectForLog(studentId, assignedDays);
     }
 
-    // ── NOTES ─────────────────────────────────────────
-    function renderNotesList() {
-      const container = document.getElementById('notes-list');
-      const items = [
-        ...favorites.map(f => {
-          const s = allStudents.find(st => st.id === f.studentId);
-          if (!s) return '';
-          const key = 'student-' + s.id;
-          const hasNote = notes[key] && notes[key].trim();
-          return '<div class="notes-list-item" onclick="openNotesPage(\'' + key + '\', \'' + s.name + '\', \'' + (s.parent || 'Adult student') + '\')">' +
-            '<div><h3>' + s.name + '</h3><p>' + (s.parent || 'Adult student') + (hasNote ? ' · Has notes' : '') + '</p></div>' +
-            '<span style="color:#aaa;font-size:20px">›</span></div>';
-        }),
-        ...bands.map(band => {
-          const key = 'band-' + band.id;
-          const hasNote = notes[key] && notes[key].trim();
-          return '<div class="notes-list-item" onclick="openNotesPage(\'' + key + '\', \'' + band.name + '\', \'Band\')">' +
-            '<div><div class="band-tag" style="margin-bottom:2px">Band</div><h3>' + band.name + '</h3>' +
-            '<p>' + band.memberIds.length + ' members' + (hasNote ? ' · Has notes' : '') + '</p></div>' +
-            '<span style="color:#aaa;font-size:20px">›</span></div>';
-        })
-      ].join('');
-      container.innerHTML = items || '<div class="empty-state"><p>No favorites yet.</p></div>';
+    function showLessonForm(date, studentId) {
+      document.getElementById('lesson-date').value = date;
+      document.getElementById('lesson-modal-body').style.display = '';
+      document.getElementById('day-select-options').innerHTML = '';
+      document.getElementById('lesson-modal-actions').innerHTML =
+        '<button class="btn-secondary" onclick="closeLessonModal()">Cancel</button>' +
+        '<button class="btn-primary" onclick="saveLesson(' + studentId + ')">Confirm</button>';
+      document.getElementById('lesson-modal').classList.add('open');
     }
 
-    function openNotesPage(key, name, subtitle) {
-      currentNotesKey = key;
-      document.getElementById('notes-page-title').textContent = name;
-      document.getElementById('notes-page-subtitle').textContent = subtitle;
-      document.getElementById('notes-textarea').value = notes[key] || '';
-      document.getElementById('notes-saved').textContent = '';
-      document.getElementById('notes-list-view').classList.add('hidden');
-      document.getElementById('notes-page').classList.add('open');
+    function showDaySelectForLog(studentId, assignedDays) {
+      document.getElementById('lesson-modal-body').style.display = 'none';
+      document.getElementById('lesson-modal-subtitle').textContent = 'Which day do you want to log?';
+      let options = assignedDays.map(day => {
+        const date = mostRecentDay(day);
+        return '<button class="day-select-btn" onclick="selectLogDay(' + studentId + ', \'' + date + '\')">' + day + ' — ' + formatDate(date) + '</button>';
+      }).join('');
+      options += '<button class="day-select-btn" onclick="selectLogDay(' + studentId + ', \'' + todayISO() + '\')">Other — ' + formatDate(todayISO()) + '</button>';
+      document.getElementById('day-select-options').innerHTML = options;
+      document.getElementById('lesson-modal-actions').innerHTML = '<button class="btn-secondary" onclick="closeLessonModal()">Cancel</button>';
+      document.getElementById('lesson-modal').classList.add('open');
     }
 
-    function closeNotesPage() {
-      if (currentNotesKey) notes[currentNotesKey] = document.getElementById('notes-textarea').value;
-      save();
-      currentNotesKey = null;
-      document.getElementById('notes-page').classList.remove('open');
-      document.getElementById('notes-list-view').classList.remove('hidden');
-      renderNotesList();
+    function selectLogDay(studentId, date) {
+      document.getElementById('day-select-options').innerHTML = '';
+      document.getElementById('lesson-modal-body').style.display = '';
+      showLessonForm(date, studentId);
     }
 
-    document.getElementById('notes-textarea').addEventListener('input', () => {
-      if (currentNotesKey) {
-        notes[currentNotesKey] = document.getElementById('notes-textarea').value;
-        save();
-        document.getElementById('notes-saved').textContent = 'Saved';
-        setTimeout(() => { document.getElementById('notes-saved').textContent = ''; }, 1500);
+    function openEditLesson(lessonId, source) {
+      const lesson = allLessons.find(l => l.id === lessonId);
+      const s = allStudents.find(st => st.id === lesson.studentId);
+      editingLessonId = lessonId; editSource = source;
+      document.getElementById('lesson-modal-title').textContent = 'Edit — ' + s.name;
+      document.getElementById('lesson-modal-subtitle').textContent = formatDate(lesson.date);
+      document.getElementById('lesson-modal-body').style.display = '';
+      document.getElementById('day-select-options').innerHTML = '';
+      document.getElementById('fg-type').style.display = '';
+      document.getElementById('band-member-checklist').innerHTML = '';
+      document.getElementById('lesson-date').value = lesson.date;
+      document.getElementById('lesson-time').value = lesson.time;
+      setDurationPicker('lesson-duration-picker', lesson.duration);
+      setTypePicker(lesson.type);
+      document.getElementById('lesson-modal-actions').innerHTML =
+        '<button class="btn-danger" onclick="deleteLesson(' + lessonId + ')">Delete</button>' +
+        '<button class="btn-primary" onclick="saveLesson(' + lesson.studentId + ')">Save</button>';
+      document.getElementById('lesson-modal').classList.add('open');
+    }
+
+    function saveLesson(studentId) {
+      const date = document.getElementById('lesson-date').value;
+      const time = document.getElementById('lesson-time').value;
+      const duration = parseFloat(document.querySelector('#lesson-duration-picker .dur-btn.selected')?.dataset.dur || 1);
+      const type = document.querySelector('.type-btn.selected')?.dataset.type || 'individual';
+      if (editingLessonId) {
+        allLessons = allLessons.map(l => l.id === editingLessonId ? { ...l, date, time, duration, type } : l);
+      } else {
+        allLessons.push({ id: Date.now(), studentId, date, time, duration, type });
       }
-    });
-
-    // ── EXPORT ────────────────────────────────────────
-    function populateExportMonths() {
-      const select = document.getElementById('export-month-select');
-      const months = getAvailableMonths();
-      select.innerHTML = months.map(m =>
-        '<option value="' + m + '"' + (m === currentMonthKey() ? ' selected' : '') + '>' + monthLabel(m) + (m === currentMonthKey() ? ' (current)' : '') + '</option>'
-      ).join('');
-      const nameInput = document.getElementById('teacher-name-input');
-      if (!nameInput.value) nameInput.value = currentUser || '';
-    }
-
-    function exportCSV() {
-      const teacherName = document.getElementById('teacher-name-input').value.trim();
-      if (!teacherName) { alert('Please enter your name.'); return; }
-      const month = document.getElementById('export-month-select').value;
-      const monthLessons = allLessons.filter(l => l.date.startsWith(month));
-      if (monthLessons.length === 0) { alert('No lessons found for that month.'); return; }
-
-      const rows = [['Teacher Name','Student Name','Parent Name','Date','Time','Duration (hrs)','Session Type','Band Name']];
-      monthLessons.forEach(l => {
-        if (l.bandId) {
-          const band = bands.find(b => b.id === l.bandId);
-          const presentIds = l.presentMemberIds || band?.memberIds || [];
-          presentIds.forEach(id => {
-            const s = allStudents.find(st => st.id === id);
-            if (s) rows.push([teacherName, s.name, s.parent || '', l.date, l.time, l.duration, 'band', band?.name || '']);
-          });
-        } else {
-          const s = allStudents.find(st => st.id === l.studentId);
-          if (s) rows.push([teacherName, s.name, s.parent || '', l.date, l.time, l.duration, 'individual', '']);
-        }
-      });
-
-      const csv = rows.map(r => r.map(v => '"' + String(v).replace(/"/g, '""') + '"').join(',')).join('\n');
-      const blob = new Blob([csv], { type: 'text/csv' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = teacherName.replace(/\s/g,'_') + '_' + month + '.csv';
-      a.click();
-      URL.revokeObjectURL(url);
+      save(); closeLessonModal(); renderFavorites(); renderLoggedLessons();
     }
 
     // ── LOG BAND LESSON ───────────────────────────────
     function openLogBandLesson(bandId) {
       const band = bands.find(b => b.id === bandId);
+      const hasToday = allLessons.some(l => l.bandId === bandId && l.date === todayISO());
+      if (hasToday) {
+        showDuplicateWarning(band.name, () => proceedLogBandLesson(bandId, band));
+      } else {
+        proceedLogBandLesson(bandId, band);
+      }
+    }
+
+    function proceedLogBandLesson(bandId, band) {
       editingLessonId = null; editSource = null;
       document.getElementById('lesson-modal-title').textContent = 'Log — ' + band.name;
       document.getElementById('lesson-modal-subtitle').textContent = band.memberIds.length + ' members';
@@ -949,86 +897,6 @@
       document.getElementById('lesson-modal').classList.add('open');
     }
 
-    // ── LOG INDIVIDUAL LESSON ─────────────────────────
-    function openLogLesson(studentId) {
-      const fav = favorites.find(f => f.studentId === studentId);
-      const s = allStudents.find(st => st.id === studentId);
-      editingLessonId = null; editSource = null;
-      document.getElementById('lesson-modal-title').textContent = 'Log — ' + s.name;
-      document.getElementById('lesson-modal-subtitle').textContent = s.parent ? 'Parent: ' + s.parent : 'Adult student';
-      document.getElementById('lesson-time').value = fav?.usualTime || nowTime();
-      document.getElementById('fg-type').style.display = '';
-      document.getElementById('band-member-checklist').innerHTML = '';
-      setDurationPicker('lesson-duration-picker', fav?.duration || 1);
-      setTypePicker('individual');
-      const assignedDays = fav?.days || [];
-      if (assignedDays.length === 0) showLessonForm(todayISO(), studentId);
-      else if (assignedDays.length === 1) showLessonForm(mostRecentDay(assignedDays[0]), studentId);
-      else showDaySelectForLog(studentId, assignedDays);
-    }
-
-    function showLessonForm(date, studentId) {
-      document.getElementById('lesson-date').value = date;
-      document.getElementById('lesson-modal-body').style.display = '';
-      document.getElementById('day-select-options').innerHTML = '';
-      document.getElementById('lesson-modal-actions').innerHTML =
-        '<button class="btn-secondary" onclick="closeLessonModal()">Cancel</button>' +
-        '<button class="btn-primary" onclick="saveLesson(' + studentId + ')">Confirm</button>';
-      document.getElementById('lesson-modal').classList.add('open');
-    }
-
-    function showDaySelectForLog(studentId, assignedDays) {
-      document.getElementById('lesson-modal-body').style.display = 'none';
-      document.getElementById('lesson-modal-subtitle').textContent = 'Which day do you want to log?';
-      let options = assignedDays.map(day => {
-        const date = mostRecentDay(day);
-        return '<button class="day-select-btn" onclick="selectLogDay(' + studentId + ', \'' + date + '\')">' + day + ' — ' + formatDate(date) + '</button>';
-      }).join('');
-      options += '<button class="day-select-btn" onclick="selectLogDay(' + studentId + ', \'' + todayISO() + '\')">Other — ' + formatDate(todayISO()) + '</button>';
-      document.getElementById('day-select-options').innerHTML = options;
-      document.getElementById('lesson-modal-actions').innerHTML = '<button class="btn-secondary" onclick="closeLessonModal()">Cancel</button>';
-      document.getElementById('lesson-modal').classList.add('open');
-    }
-
-    function selectLogDay(studentId, date) {
-      document.getElementById('day-select-options').innerHTML = '';
-      document.getElementById('lesson-modal-body').style.display = '';
-      showLessonForm(date, studentId);
-    }
-
-    function openEditLesson(lessonId, source) {
-      const lesson = allLessons.find(l => l.id === lessonId);
-      const s = allStudents.find(st => st.id === lesson.studentId);
-      editingLessonId = lessonId; editSource = source;
-      document.getElementById('lesson-modal-title').textContent = 'Edit — ' + s.name;
-      document.getElementById('lesson-modal-subtitle').textContent = formatDate(lesson.date);
-      document.getElementById('lesson-modal-body').style.display = '';
-      document.getElementById('day-select-options').innerHTML = '';
-      document.getElementById('fg-type').style.display = '';
-      document.getElementById('band-member-checklist').innerHTML = '';
-      document.getElementById('lesson-date').value = lesson.date;
-      document.getElementById('lesson-time').value = lesson.time;
-      setDurationPicker('lesson-duration-picker', lesson.duration);
-      setTypePicker(lesson.type);
-      document.getElementById('lesson-modal-actions').innerHTML =
-        '<button class="btn-danger" onclick="deleteLesson(' + lessonId + ')">Delete</button>' +
-        '<button class="btn-primary" onclick="saveLesson(' + lesson.studentId + ')">Save</button>';
-      document.getElementById('lesson-modal').classList.add('open');
-    }
-
-    function saveLesson(studentId) {
-      const date = document.getElementById('lesson-date').value;
-      const time = document.getElementById('lesson-time').value;
-      const duration = parseFloat(document.querySelector('#lesson-duration-picker .dur-btn.selected')?.dataset.dur || 1);
-      const type = document.querySelector('.type-btn.selected')?.dataset.type || 'individual';
-      if (editingLessonId) {
-        allLessons = allLessons.map(l => l.id === editingLessonId ? { ...l, date, time, duration, type } : l);
-      } else {
-        allLessons.push({ id: Date.now(), studentId, date, time, duration, type });
-      }
-      save(); closeLessonModal(); renderFavorites(); renderLoggedLessons();
-    }
-
     function deleteLesson(lessonId) {
       allLessons = allLessons.filter(l => l.id !== lessonId);
       save(); closeLessonModal(); renderFavorites(); renderLoggedLessons();
@@ -1043,11 +911,224 @@
       editingLessonId = null; editSource = null;
     }
 
+    // ── LOGGED LESSONS ────────────────────────────────
+    function renderLoggedLessons() {
+      const container = document.getElementById('logged-lessons-view');
+      const months = getAvailableMonths();
+      if (!selectedViewMonth || !months.includes(selectedViewMonth)) selectedViewMonth = currentMonthKey();
+      const isCurrentMonth = selectedViewMonth === currentMonthKey();
+      const monthLessons = allLessons.filter(l => l.date.startsWith(selectedViewMonth));
+      const e = calcEarnings(monthLessons);
+
+      let html = '';
+
+      // Month selector
+      html += '<div class="month-selector">' +
+        '<select onchange="selectedViewMonth=this.value;renderLoggedLessons()">' +
+        months.map(m => '<option value="' + m + '"' + (m === selectedViewMonth ? ' selected' : '') + '>' + monthLabel(m) + (m === currentMonthKey() ? ' (current)' : '') + '</option>').join('') +
+        '</select></div>';
+
+      // Earnings
+      if (monthLessons.length > 0) {
+        html += '<div class="earnings-summary">' +
+          '<div class="earnings-toggle" onclick="this.nextElementSibling.classList.toggle(\'open\')">' +
+            '<div><div class="earnings-label">' + monthLabel(selectedViewMonth) + ' earnings</div>' +
+            '<div class="earnings-total">$' + e.total.toFixed(2) + '</div></div>' +
+            '<span style="color:#aaa;font-size:20px">▾</span>' +
+          '</div>' +
+          '<div class="earnings-detail">' +
+            '<div class="earnings-row"><span>Individual lessons</span><span>$' + e.lessonTotal.toFixed(2) + '</span></div>' +
+            '<div class="earnings-row"><span>Band sessions</span><span>$' + e.bandTotal.toFixed(2) + '</span></div>' +
+            '<div class="earnings-row total-row"><span>Total</span><span>$' + e.total.toFixed(2) + '</span></div>' +
+          '</div></div>';
+      }
+
+      // Today section — larger cards, only current month
+      if (isCurrentMonth) {
+        const todayLessons = monthLessons.filter(l => l.date === todayISO()).sort((a,b) => a.time.localeCompare(b.time));
+        html += '<div class="today-block">';
+        html += '<div class="today-block-label">Today — ' + formatDate(todayISO()) + '</div>';
+        if (todayLessons.length === 0) {
+          html += '<div style="color:#86efac;font-size:14px;text-align:center;padding:8px">No lessons logged today</div>';
+        } else {
+          todayLessons.forEach(l => {
+            const isBand = !!l.bandId;
+            const band = isBand ? bands.find(b => b.id === l.bandId) : null;
+            const s = !isBand ? allStudents.find(st => st.id === l.studentId) : null;
+            const name = isBand ? (band ? band.name : 'Unknown Band') : (s ? s.name : 'Unknown');
+            const sub = isBand ? ((l.presentMemberIds || []).length + ' present') : (s?.parent ? s.parent : 'Adult student');
+            const earn = lessonEarnings(l);
+            const onclick = isBand ? 'openEditBandLesson(' + l.id + ', \'logged\')' : 'openEditLesson(' + l.id + ', \'logged\')';
+            html += '<div class="today-log-card' + (isBand ? ' band' : '') + '" onclick="' + onclick + '">' +
+              (isBand ? '<div style="font-size:11px;font-weight:700;color:#8b5cf6;text-transform:uppercase;margin-bottom:2px">Band</div>' : '') +
+              '<div class="today-log-name">' + name + '</div>' +
+              '<div class="today-log-meta">' +
+                '<span>' + l.time + '</span>' +
+                '<span>' + durationLabel(l.duration) + '</span>' +
+                '<span>' + sub + '</span>' +
+                '<span class="today-log-earnings">$' + earn.toFixed(2) + '</span>' +
+              '</div>' +
+            '</div>';
+          });
+        }
+        html += '</div>';
+      }
+
+      // Past days — compact cards grouped by date, collapsible
+      const pastLessons = isCurrentMonth
+        ? monthLessons.filter(l => l.date !== todayISO())
+        : monthLessons;
+
+      if (pastLessons.length === 0 && !isCurrentMonth) {
+        html += '<div class="empty-state"><p>No lessons logged for this month.</p></div>';
+      } else if (pastLessons.length > 0) {
+        const byDate = {};
+        pastLessons.sort((a,b) => (b.date+b.time).localeCompare(a.date+a.time)).forEach(l => {
+          if (!byDate[l.date]) byDate[l.date] = [];
+          byDate[l.date].push(l);
+        });
+
+        Object.keys(byDate).sort((a,b) => b.localeCompare(a)).forEach(date => {
+          const dayLessons = byDate[date];
+          const dayEarnings = calcEarnings(dayLessons);
+          const groupId = 'dg-' + date.replace(/-/g,'');
+          html += '<div class="date-group">' +
+            '<div class="date-group-header" onclick="toggleDateGroup(\'' + groupId + '\')">' +
+              '<span class="date-group-label">' + formatDate(date) + '</span>' +
+              '<span class="date-group-summary">$' + dayEarnings.total.toFixed(2) + ' · ' + dayLessons.length + ' session' + (dayLessons.length !== 1 ? 's' : '') + '</span>' +
+            '</div>' +
+            '<div class="date-group-content" id="' + groupId + '">';
+
+          dayLessons.sort((a,b) => a.time.localeCompare(b.time)).forEach(l => {
+            const isBand = !!l.bandId;
+            const band = isBand ? bands.find(b => b.id === l.bandId) : null;
+            const s = !isBand ? allStudents.find(st => st.id === l.studentId) : null;
+            const name = isBand ? (band ? band.name : 'Unknown Band') : (s ? s.name : 'Unknown');
+            const earn = lessonEarnings(l);
+            const minHeight = cardHeightForDuration(l.duration);
+            const onclick = isBand ? 'openEditBandLesson(' + l.id + ', \'logged\')' : 'openEditLesson(' + l.id + ', \'logged\')';
+            html += '<div class="compact-log-card' + (isBand ? ' band' : '') + '" style="min-height:' + minHeight + 'px" onclick="' + onclick + '">' +
+              '<div class="compact-log-inner">' +
+                '<div class="compact-log-left">' +
+                  (isBand ? '<div style="font-size:10px;font-weight:700;color:#8b5cf6;text-transform:uppercase">Band</div>' : '') +
+                  '<div class="compact-log-name">' + name + '</div>' +
+                  '<div class="compact-log-time">' + l.time + '</div>' +
+                '</div>' +
+                '<div class="compact-log-right">' +
+                  '<div class="compact-log-dur">' + durationLabel(l.duration) + '</div>' +
+                  '<div class="compact-log-earn">$' + earn.toFixed(2) + '</div>' +
+                '</div>' +
+              '</div>' +
+            '</div>';
+          });
+
+          html += '</div></div>';
+        });
+      }
+
+      container.innerHTML = html;
+    }
+
+    function toggleDateGroup(groupId) {
+      document.getElementById(groupId).classList.toggle('collapsed');
+    }
+
+    // ── NOTES ─────────────────────────────────────────
+    function renderNotesList() {
+      const container = document.getElementById('notes-list');
+      const items = [
+        ...favorites.map(f => {
+          const s = allStudents.find(st => st.id === f.studentId);
+          if (!s) return '';
+          const key = 'student-' + s.id;
+          const hasNote = notes[key] && notes[key].trim();
+          return '<div class="notes-list-item" onclick="openNotesPage(\'' + key + '\', \'' + s.name + '\', \'' + (s.parent || 'Adult student') + '\')">' +
+            '<div><h3>' + s.name + '</h3><p>' + (s.parent || 'Adult student') + (hasNote ? ' · Has notes' : '') + '</p></div>' +
+            '<span style="color:#aaa;font-size:20px">›</span></div>';
+        }),
+        ...bands.map(band => {
+          const key = 'band-' + band.id;
+          const hasNote = notes[key] && notes[key].trim();
+          return '<div class="notes-list-item" onclick="openNotesPage(\'' + key + '\', \'' + band.name + '\', \'Band\')">' +
+            '<div><div class="band-tag" style="margin-bottom:2px">Band</div><h3>' + band.name + '</h3>' +
+            '<p>' + band.memberIds.length + ' members' + (hasNote ? ' · Has notes' : '') + '</p></div>' +
+            '<span style="color:#aaa;font-size:20px">›</span></div>';
+        })
+      ].join('');
+      container.innerHTML = items || '<div class="empty-state"><p>No favorites yet.</p></div>';
+    }
+
+    function openNotesPage(key, name, subtitle) {
+      currentNotesKey = key;
+      document.getElementById('notes-page-title').textContent = name;
+      document.getElementById('notes-page-subtitle').textContent = subtitle;
+      document.getElementById('notes-textarea').value = notes[key] || '';
+      document.getElementById('notes-saved').textContent = '';
+      document.getElementById('notes-list-view').classList.add('hidden');
+      document.getElementById('notes-page').classList.add('open');
+    }
+
+    function closeNotesPage() {
+      if (currentNotesKey) notes[currentNotesKey] = document.getElementById('notes-textarea').value;
+      save(); currentNotesKey = null;
+      document.getElementById('notes-page').classList.remove('open');
+      document.getElementById('notes-list-view').classList.remove('hidden');
+      renderNotesList();
+    }
+
+    document.getElementById('notes-textarea').addEventListener('input', () => {
+      if (currentNotesKey) {
+        notes[currentNotesKey] = document.getElementById('notes-textarea').value;
+        save();
+        document.getElementById('notes-saved').textContent = 'Saved';
+        setTimeout(() => { document.getElementById('notes-saved').textContent = ''; }, 1500);
+      }
+    });
+
+    // ── EXPORT ────────────────────────────────────────
+    function populateExportMonths() {
+      const select = document.getElementById('export-month-select');
+      const months = getAvailableMonths();
+      select.innerHTML = months.map(m =>
+        '<option value="' + m + '"' + (m === currentMonthKey() ? ' selected' : '') + '>' + monthLabel(m) + (m === currentMonthKey() ? ' (current)' : '') + '</option>'
+      ).join('');
+      const nameInput = document.getElementById('teacher-name-input');
+      if (!nameInput.value) nameInput.value = currentUser || '';
+    }
+
+    function exportCSV() {
+      const teacherName = document.getElementById('teacher-name-input').value.trim();
+      if (!teacherName) { alert('Please enter your name.'); return; }
+      const month = document.getElementById('export-month-select').value;
+      const monthLessons = allLessons.filter(l => l.date.startsWith(month));
+      if (monthLessons.length === 0) { alert('No lessons found for that month.'); return; }
+      const rows = [['Teacher Name','Student Name','Parent Name','Date','Time','Duration (hrs)','Session Type','Band Name']];
+      monthLessons.forEach(l => {
+        if (l.bandId) {
+          const band = bands.find(b => b.id === l.bandId);
+          const presentIds = l.presentMemberIds || band?.memberIds || [];
+          presentIds.forEach(id => {
+            const s = allStudents.find(st => st.id === id);
+            if (s) rows.push([teacherName, s.name, s.parent || '', l.date, l.time, l.duration, 'band', band?.name || '']);
+          });
+        } else {
+          const s = allStudents.find(st => st.id === l.studentId);
+          if (s) rows.push([teacherName, s.name, s.parent || '', l.date, l.time, l.duration, 'individual', '']);
+        }
+      });
+      const csv = rows.map(r => r.map(v => '"' + String(v).replace(/"/g,'""') + '"').join(',')).join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = teacherName.replace(/\s/g,'_') + '_' + month + '.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
     // ── PICKERS ───────────────────────────────────────
     function setDurationPicker(pickerId, value) {
-      document.querySelectorAll('#' + pickerId + ' .dur-btn').forEach(btn => {
-        btn.classList.toggle('selected', parseFloat(btn.dataset.dur) === value);
-      });
+      document.querySelectorAll('#' + pickerId + ' .dur-btn').forEach(btn => btn.classList.toggle('selected', parseFloat(btn.dataset.dur) === value));
     }
     document.querySelectorAll('.dur-btn').forEach(btn => {
       btn.addEventListener('click', () => {
