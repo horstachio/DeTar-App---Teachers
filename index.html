@@ -7,8 +7,27 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #1a1a1a; min-height: 100vh; }
+
+    /* LOGIN */
+    .login-screen { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; padding: 32px 24px; }
+    .login-box { background: #fff; border-radius: 20px; padding: 32px 24px; width: 100%; max-width: 400px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
+    .login-box h1 { font-size: 24px; font-weight: 800; margin-bottom: 6px; }
+    .login-box p { font-size: 14px; color: #888; margin-bottom: 24px; }
+    .login-form-group { margin-bottom: 14px; }
+    .login-form-group label { display: block; font-size: 13px; font-weight: 600; color: #555; margin-bottom: 6px; }
+    .login-form-group input { width: 100%; padding: 12px 14px; border: 1px solid #ddd; border-radius: 10px; font-size: 15px; }
+    .login-btn { width: 100%; padding: 14px; background: #1a1a1a; color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 8px; }
+    .login-error { color: #dc2626; font-size: 13px; margin-top: 8px; text-align: center; display: none; }
+    .login-switch { text-align: center; margin-top: 16px; font-size: 13px; color: #888; }
+    .login-switch span { color: #1a1a1a; font-weight: 600; cursor: pointer; }
+
+    /* APP */
+    .app-screen { display: none; }
+    .app-screen.visible { display: block; }
     header { background: #1a1a1a; padding: 16px 20px; position: sticky; top: 0; z-index: 100; }
-    header h1 { color: #fff; font-size: 18px; font-weight: 600; margin-bottom: 12px; }
+    .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    header h1 { color: #fff; font-size: 18px; font-weight: 600; }
+    .logout-btn { background: none; border: 1px solid #444; color: #aaa; padding: 4px 10px; border-radius: 6px; font-size: 12px; cursor: pointer; }
     nav { display: flex; gap: 8px; flex-wrap: wrap; }
     .tab-btn { background: transparent; border: 1px solid #444; color: #aaa; padding: 6px 14px; border-radius: 20px; font-size: 13px; cursor: pointer; }
     .tab-btn.active { background: #fff; border-color: #fff; color: #1a1a1a; font-weight: 600; }
@@ -71,13 +90,13 @@
     .log-card-info p { font-size: 13px; color: #888; }
     .log-card-right { text-align: right; }
     .log-card-right .duration { font-size: 15px; font-weight: 700; }
-    .log-card-right .type-tag { font-size: 11px; color: #888; text-transform: uppercase; }
+    .log-card-right .type-tag { font-size: 11px; color: #22c55e; font-weight: 600; }
     .month-block { margin-bottom: 32px; }
     .month-heading { font-size: 18px; font-weight: 700; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #e5e5e5; }
     .section-divider { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #888; margin-bottom: 12px; margin-top: 4px; }
-    .past-month-toggle { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; background: #fff; border-radius: 12px; margin-bottom: 10px; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.06); font-weight: 600; }
-    .past-month-content { display: none; }
-    .past-month-content.open { display: block; }
+    .past-period-toggle { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; background: #fff; border-radius: 12px; margin-bottom: 10px; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.06); font-weight: 600; }
+    .past-period-content { display: none; }
+    .past-period-content.open { display: block; }
     .empty-state { text-align: center; padding: 40px 20px; color: #aaa; }
     .empty-state p { margin-bottom: 16px; font-size: 15px; }
     .day-select-btn { width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 10px; background: #fff; font-size: 15px; cursor: pointer; text-align: left; margin-bottom: 8px; }
@@ -86,8 +105,6 @@
     .member-check-item label { font-size: 15px; font-weight: 500; cursor: pointer; }
     .member-check-item input[type=checkbox] { width: 20px; height: 20px; cursor: pointer; }
     .member-list-preview { font-size: 12px; color: #888; margin-top: 2px; }
-
-    /* Earnings summary */
     .earnings-summary { background: #fff; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
     .earnings-toggle { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
     .earnings-total { font-size: 28px; font-weight: 800; color: #1a1a1a; }
@@ -97,10 +114,7 @@
     .earnings-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f5f5f5; font-size: 14px; }
     .earnings-row:last-child { border-bottom: none; }
     .earnings-row.total-row { font-weight: 700; font-size: 15px; border-top: 2px solid #e5e5e5; margin-top: 4px; padding-top: 12px; }
-
-    /* Notes */
     .notes-list-item { background: #fff; border-radius: 12px; padding: 16px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
-    .notes-list-item:active { opacity: 0.8; }
     .notes-list-item h3 { font-size: 16px; font-weight: 600; margin-bottom: 2px; }
     .notes-list-item p { font-size: 13px; color: #888; }
     .notes-page { display: none; }
@@ -111,81 +125,114 @@
     .notes-textarea { width: 100%; min-height: 400px; padding: 16px; border: 1px solid #ddd; border-radius: 12px; font-size: 15px; font-family: inherit; resize: vertical; line-height: 1.6; }
     .notes-textarea:focus { outline: none; border-color: #1a1a1a; }
     .notes-saved { font-size: 12px; color: #aaa; text-align: right; margin-top: 8px; }
-
-    /* Export */
     .export-card { background: #fff; border-radius: 12px; padding: 20px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
     .export-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 12px; }
+
+    /* Period controls */
+    .period-bar { background: #fff; border-radius: 12px; padding: 14px 16px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .period-label { font-size: 15px; font-weight: 700; }
+    .period-sub { font-size: 12px; color: #888; }
+    .btn-new-period { background: #1a1a1a; color: #fff; border: none; padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>Studio Teacher App</h1>
-    <nav>
-      <button class="tab-btn active" data-tab="favorites">Favorites</button>
-      <button class="tab-btn" data-tab="logged">Logged Lessons</button>
-      <button class="tab-btn" data-tab="notes">Notes</button>
-      <button class="tab-btn" data-tab="export">Export</button>
-    </nav>
-  </header>
+  <!-- LOGIN SCREEN -->
+  <div class="login-screen" id="login-screen">
+    <div class="login-box">
+      <h1>Studio Teacher</h1>
+      <p id="login-subtitle">Sign in to your account</p>
+      <div class="login-form-group">
+        <label>Your name</label>
+        <input type="text" id="login-name" placeholder="e.g. Hudson" />
+      </div>
+      <div class="login-form-group">
+        <label>Password</label>
+        <input type="password" id="login-password" placeholder="Password" />
+      </div>
+      <div class="login-form-group" id="login-confirm-group" style="display:none">
+        <label>Confirm password</label>
+        <input type="password" id="login-confirm" placeholder="Confirm password" />
+      </div>
+      <button class="login-btn" id="login-btn" onclick="handleAuth()">Sign In</button>
+      <div class="login-error" id="login-error"></div>
+      <div class="login-switch">
+        <span id="login-switch-text">Don't have an account? <span onclick="toggleAuthMode()">Create one</span></span>
+      </div>
+    </div>
+  </div>
 
-  <main>
-    <!-- FAVORITES -->
-    <section id="favorites" class="tab-content active">
-      <div class="section-header">
-        <h2>Favorites</h2>
-        <div class="header-actions">
-          <button class="btn-band" onclick="openCreateBandModal()">+ Band</button>
-          <button class="btn-primary" onclick="openRosterModal()">+ Student</button>
+  <!-- APP SCREEN -->
+  <div class="app-screen" id="app-screen">
+    <header>
+      <div class="header-top">
+        <h1>Studio Teacher</h1>
+        <button class="logout-btn" onclick="logout()">Log out</button>
+      </div>
+      <nav>
+        <button class="tab-btn active" data-tab="favorites">Favorites</button>
+        <button class="tab-btn" data-tab="logged">Logged Lessons</button>
+        <button class="tab-btn" data-tab="notes">Notes</button>
+        <button class="tab-btn" data-tab="export">Export</button>
+      </nav>
+    </header>
+
+    <main>
+      <section id="favorites" class="tab-content active">
+        <div class="section-header">
+          <h2>Favorites</h2>
+          <div class="header-actions">
+            <button class="btn-band" onclick="openCreateBandModal()">+ Band</button>
+            <button class="btn-primary" onclick="openRosterModal()">+ Student</button>
+          </div>
         </div>
-      </div>
-      <div id="favorites-list"></div>
-    </section>
+        <div id="favorites-list"></div>
+      </section>
 
-    <!-- LOGGED LESSONS -->
-    <section id="logged" class="tab-content">
-      <h2>Logged Lessons</h2>
-      <div id="logged-lessons-view"></div>
-    </section>
-
-    <!-- NOTES -->
-    <section id="notes" class="tab-content">
-      <div class="notes-list-view" id="notes-list-view">
-        <h2>Notes</h2>
-        <div id="notes-list"></div>
-      </div>
-      <div class="notes-page" id="notes-page">
-        <button class="notes-back-btn" onclick="closeNotesPage()">← Notes</button>
-        <h2 id="notes-page-title"></h2>
-        <p id="notes-page-subtitle" style="font-size:13px;color:#888;margin-bottom:16px"></p>
-        <textarea class="notes-textarea" id="notes-textarea" placeholder="Write anything about this student..."></textarea>
-        <div class="notes-saved" id="notes-saved"></div>
-      </div>
-    </section>
-
-    <!-- EXPORT -->
-    <section id="export" class="tab-content">
-      <h2>Export</h2>
-      <div class="export-card">
-        <h3>Monthly CSV Export</h3>
-        <div class="form-group">
-          <label>Your name (appears in CSV)</label>
-          <input type="text" id="teacher-name-input" placeholder="e.g. Hudson" />
+      <section id="logged" class="tab-content">
+        <div class="section-header">
+          <h2>Logged Lessons</h2>
         </div>
-        <div class="form-group">
-          <label>Month to export</label>
-          <input type="month" id="export-month" />
-        </div>
-        <button class="btn-primary" style="width:100%;padding:14px;font-size:15px" onclick="exportCSV()">Download CSV</button>
-      </div>
-      <div class="export-card" style="background:#f9f9f9">
-        <h3 style="color:#888">What's included</h3>
-        <p style="font-size:13px;color:#888;line-height:1.6">One row per session. Columns: Teacher Name, Student Name, Parent Name, Date, Time, Duration (hrs), Session Type, Band Name.</p>
-      </div>
-    </section>
-  </main>
+        <div id="logged-lessons-view"></div>
+      </section>
 
-  <!-- ROSTER MODAL -->
+      <section id="notes" class="tab-content">
+        <div class="notes-list-view" id="notes-list-view">
+          <h2>Notes</h2>
+          <div id="notes-list"></div>
+        </div>
+        <div class="notes-page" id="notes-page">
+          <button class="notes-back-btn" onclick="closeNotesPage()">← Notes</button>
+          <h2 id="notes-page-title"></h2>
+          <p id="notes-page-subtitle" style="font-size:13px;color:#888;margin-bottom:16px"></p>
+          <textarea class="notes-textarea" id="notes-textarea" placeholder="Write anything about this student..."></textarea>
+          <div class="notes-saved" id="notes-saved"></div>
+        </div>
+      </section>
+
+      <section id="export" class="tab-content">
+        <h2>Export</h2>
+        <div class="export-card">
+          <h3>CSV Export</h3>
+          <div class="form-group">
+            <label>Your name (appears in CSV)</label>
+            <input type="text" id="teacher-name-input" placeholder="e.g. Hudson" />
+          </div>
+          <div class="form-group">
+            <label>Select period to export</label>
+            <select id="export-period-select" style="width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;font-size:15px"></select>
+          </div>
+          <button class="btn-primary" style="width:100%;padding:14px;font-size:15px" onclick="exportCSV()">Download CSV</button>
+        </div>
+        <div class="export-card" style="background:#f9f9f9">
+          <h3 style="color:#888">What's included</h3>
+          <p style="font-size:13px;color:#888;line-height:1.6">One row per session. Columns: Teacher Name, Student Name, Parent Name, Date, Time, Duration (hrs), Session Type, Band Name.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- MODALS -->
   <div class="modal-overlay" id="roster-modal">
     <div class="modal">
       <div class="step-indicator">Step 1 of 3</div>
@@ -199,7 +246,6 @@
     </div>
   </div>
 
-  <!-- DAY PICKER MODAL -->
   <div class="modal-overlay" id="day-modal">
     <div class="modal">
       <div class="step-indicator" id="day-step-label">Step 2 of 3</div>
@@ -221,7 +267,6 @@
     </div>
   </div>
 
-  <!-- TIME & DURATION MODAL -->
   <div class="modal-overlay" id="time-modal">
     <div class="modal">
       <div class="step-indicator" id="time-step-label">Step 3 of 3</div>
@@ -247,7 +292,6 @@
     </div>
   </div>
 
-  <!-- CREATE BAND MODAL -->
   <div class="modal-overlay" id="create-band-modal">
     <div class="modal">
       <div class="step-indicator">Step 1 of 3</div>
@@ -266,7 +310,6 @@
     </div>
   </div>
 
-  <!-- BAND DAY PICKER MODAL -->
   <div class="modal-overlay" id="band-day-modal">
     <div class="modal">
       <div class="step-indicator">Step 2 of 3</div>
@@ -288,7 +331,6 @@
     </div>
   </div>
 
-  <!-- BAND TIME MODAL -->
   <div class="modal-overlay" id="band-time-modal">
     <div class="modal">
       <div class="step-indicator">Step 3 of 3</div>
@@ -314,7 +356,6 @@
     </div>
   </div>
 
-  <!-- LOG / EDIT LESSON MODAL -->
   <div class="modal-overlay" id="lesson-modal">
     <div class="modal">
       <h3 id="lesson-modal-title">Log Lesson</h3>
@@ -351,19 +392,128 @@
     </div>
   </div>
 
-  <script>
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const target = btn.dataset.tab;
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById(target).classList.add('active');
-        if (target === 'logged') renderLoggedLessons();
-        if (target === 'notes') renderNotesList();
-      });
-    });
+  <!-- NEW PERIOD MODAL -->
+  <div class="modal-overlay" id="new-period-modal">
+    <div class="modal">
+      <h3>Begin New Period</h3>
+      <p class="modal-subtitle">Current lessons will be archived. Favorites carry over.</p>
+      <div class="form-group">
+        <label>Name this period</label>
+        <input type="text" id="new-period-name" placeholder="e.g. July, Summer Session, Week 1" />
+      </div>
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="closeNewPeriodModal()">Cancel</button>
+        <button class="btn-primary" onclick="confirmNewPeriod()">Begin Period</button>
+      </div>
+    </div>
+  </div>
 
+  <script>
+    // ── AUTH ──────────────────────────────────────────
+    let currentUser = null;
+    let isSignUp = false;
+
+    function toggleAuthMode() {
+      isSignUp = !isSignUp;
+      document.getElementById('login-subtitle').textContent = isSignUp ? 'Create your account' : 'Sign in to your account';
+      document.getElementById('login-btn').textContent = isSignUp ? 'Create Account' : 'Sign In';
+      document.getElementById('login-confirm-group').style.display = isSignUp ? '' : 'none';
+      document.getElementById('login-switch-text').innerHTML = isSignUp
+        ? 'Already have an account? <span onclick="toggleAuthMode()">Sign in</span>'
+        : 'Don\'t have an account? <span onclick="toggleAuthMode()">Create one</span>';
+      document.getElementById('login-error').style.display = 'none';
+    }
+
+    function handleAuth() {
+      const name = document.getElementById('login-name').value.trim();
+      const password = document.getElementById('login-password').value;
+      const errorEl = document.getElementById('login-error');
+
+      if (!name || !password) {
+        errorEl.textContent = 'Please fill in all fields.';
+        errorEl.style.display = 'block';
+        return;
+      }
+
+      const users = JSON.parse(localStorage.getItem('studio_users') || '{}');
+
+      if (isSignUp) {
+        const confirm = document.getElementById('login-confirm').value;
+        if (password !== confirm) {
+          errorEl.textContent = 'Passwords do not match.';
+          errorEl.style.display = 'block';
+          return;
+        }
+        if (users[name.toLowerCase()]) {
+          errorEl.textContent = 'An account with that name already exists.';
+          errorEl.style.display = 'block';
+          return;
+        }
+        users[name.toLowerCase()] = { name, password };
+        localStorage.setItem('studio_users', JSON.stringify(users));
+        loginUser(name);
+      } else {
+        const user = users[name.toLowerCase()];
+        if (!user || user.password !== password) {
+          errorEl.textContent = 'Incorrect name or password.';
+          errorEl.style.display = 'block';
+          return;
+        }
+        loginUser(name);
+      }
+    }
+
+    function loginUser(name) {
+      currentUser = name;
+      localStorage.setItem('studio_current_user', name);
+      loadUserData();
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('app-screen').classList.add('visible');
+      renderFavorites();
+    }
+
+    function logout() {
+      saveUserData();
+      currentUser = null;
+      localStorage.removeItem('studio_current_user');
+      document.getElementById('app-screen').classList.remove('visible');
+      document.getElementById('login-screen').style.display = 'flex';
+      document.getElementById('login-password').value = '';
+      document.getElementById('login-error').style.display = 'none';
+    }
+
+    function userKey(key) {
+      return 'studio_' + currentUser.toLowerCase() + '_' + key;
+    }
+
+    function saveUserData() {
+      if (!currentUser) return;
+      localStorage.setItem(userKey('favorites'), JSON.stringify(favorites));
+      localStorage.setItem(userKey('bands'), JSON.stringify(bands));
+      localStorage.setItem(userKey('periods'), JSON.stringify(periods));
+      localStorage.setItem(userKey('currentPeriodId'), currentPeriodId);
+      localStorage.setItem(userKey('notes'), JSON.stringify(notes));
+    }
+
+    function loadUserData() {
+      favorites = JSON.parse(localStorage.getItem(userKey('favorites')) || '[]');
+      bands = JSON.parse(localStorage.getItem(userKey('bands')) || '[]');
+      periods = JSON.parse(localStorage.getItem(userKey('periods')) || '[]');
+      notes = JSON.parse(localStorage.getItem(userKey('notes')) || '{}');
+      currentPeriodId = localStorage.getItem(userKey('currentPeriodId')) || null;
+
+      if (periods.length === 0) {
+        const firstPeriod = { id: Date.now(), name: 'Current Period', lessons: [] };
+        periods.push(firstPeriod);
+        currentPeriodId = String(firstPeriod.id);
+        saveUserData();
+      }
+      if (!currentPeriodId) {
+        currentPeriodId = String(periods[periods.length - 1].id);
+      }
+    }
+
+    // ── STATE ─────────────────────────────────────────
     const DAYS = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
     const todayName = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date().getDay()];
     const LESSON_RATE = 60;
@@ -379,7 +529,8 @@
 
     let favorites = [];
     let bands = [];
-    let loggedLessons = [];
+    let periods = [];
+    let currentPeriodId = null;
     let notes = {};
     let pendingStudent = null;
     let editingFavoriteId = null;
@@ -391,6 +542,34 @@
     let bandSelectedDays = [];
     let currentNotesKey = null;
 
+    function getCurrentPeriod() {
+      return periods.find(p => String(p.id) === String(currentPeriodId));
+    }
+
+    function getLoggedLessons() {
+      const p = getCurrentPeriod();
+      return p ? p.lessons : [];
+    }
+
+    function save() {
+      saveUserData();
+    }
+
+    // ── TABS ──────────────────────────────────────────
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.tab;
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(target).classList.add('active');
+        if (target === 'logged') renderLoggedLessons();
+        if (target === 'notes') renderNotesList();
+        if (target === 'export') populateExportPeriods();
+      });
+    });
+
+    // ── HELPERS ───────────────────────────────────────
     function durationLabel(d) {
       if (d === 0.5) return '30 min';
       if (d === 0.75) return '45 min';
@@ -407,13 +586,6 @@
       return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
     }
 
-    function monthKey(iso) { return iso.slice(0,7); }
-
-    function monthLabel(key) {
-      const [y, m] = key.split('-');
-      return new Date(y, m-1, 1).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-    }
-
     function mostRecentDay(dayName) {
       const dayIndex = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(dayName);
       const today = new Date();
@@ -428,17 +600,36 @@
     function calcEarnings(lessons) {
       let lessonTotal = 0, bandTotal = 0;
       lessons.forEach(l => {
-        if (l.bandId) {
-          bandTotal += l.duration * BAND_RATE;
-        } else {
-          lessonTotal += l.duration * LESSON_RATE;
-        }
+        if (l.bandId) bandTotal += l.duration * BAND_RATE;
+        else lessonTotal += l.duration * LESSON_RATE;
       });
       return { lessonTotal, bandTotal, total: lessonTotal + bandTotal };
     }
 
+    // ── PERIOD MANAGEMENT ─────────────────────────────
+    function openNewPeriodModal() {
+      document.getElementById('new-period-name').value = '';
+      document.getElementById('new-period-modal').classList.add('open');
+    }
+
+    function closeNewPeriodModal() {
+      document.getElementById('new-period-modal').classList.remove('open');
+    }
+
+    function confirmNewPeriod() {
+      const name = document.getElementById('new-period-name').value.trim();
+      if (!name) { alert('Please enter a name for this period.'); return; }
+      const newPeriod = { id: Date.now(), name, lessons: [] };
+      periods.push(newPeriod);
+      currentPeriodId = String(newPeriod.id);
+      save();
+      closeNewPeriodModal();
+      renderLoggedLessons();
+    }
+
     // ── STUDENT CARD ──────────────────────────────────
     function studentCard(f, s, isToday) {
+      const loggedLessons = getLoggedLessons();
       const lesson = loggedLessons.find(l => l.studentId === f.studentId && l.date === todayISO() && !l.bandId);
       if (isToday && lesson) {
         return '<div class="card confirmed">' +
@@ -477,6 +668,7 @@
 
     // ── BAND CARD ─────────────────────────────────────
     function bandCard(band, isToday) {
+      const loggedLessons = getLoggedLessons();
       const memberNames = band.memberIds.map(id => {
         const s = allStudents.find(st => st.id === id);
         return s ? s.name : '';
@@ -568,8 +760,8 @@
       container.innerHTML = html;
     }
 
-    function removeFavorite(id) { favorites = favorites.filter(f => f.studentId !== id); renderFavorites(); }
-    function removeBand(id) { bands = bands.filter(b => b.id !== id); renderFavorites(); }
+    function removeFavorite(id) { favorites = favorites.filter(f => f.studentId !== id); save(); renderFavorites(); }
+    function removeBand(id) { bands = bands.filter(b => b.id !== id); save(); renderFavorites(); }
 
     function openEditFavorite(studentId) {
       editingFavoriteId = studentId;
@@ -595,10 +787,7 @@
           const key = 'student-' + s.id;
           const hasNote = notes[key] && notes[key].trim();
           return '<div class="notes-list-item" onclick="openNotesPage(\'' + key + '\', \'' + s.name + '\', \'' + (s.parent || 'Adult student') + '\')">' +
-            '<div>' +
-              '<h3>' + s.name + '</h3>' +
-              '<p>' + (s.parent || 'Adult student') + (hasNote ? ' · Has notes' : '') + '</p>' +
-            '</div>' +
+            '<div><h3>' + s.name + '</h3><p>' + (s.parent || 'Adult student') + (hasNote ? ' · Has notes' : '') + '</p></div>' +
             '<span style="color:#aaa;font-size:20px">›</span>' +
           '</div>';
         }),
@@ -606,21 +795,14 @@
           const key = 'band-' + band.id;
           const hasNote = notes[key] && notes[key].trim();
           return '<div class="notes-list-item" onclick="openNotesPage(\'' + key + '\', \'' + band.name + '\', \'Band\')">' +
-            '<div>' +
-              '<div class="band-tag" style="margin-bottom:2px">Band</div>' +
-              '<h3>' + band.name + '</h3>' +
-              '<p>' + band.memberIds.length + ' members' + (hasNote ? ' · Has notes' : '') + '</p>' +
-            '</div>' +
+            '<div><div class="band-tag" style="margin-bottom:2px">Band</div><h3>' + band.name + '</h3>' +
+            '<p>' + band.memberIds.length + ' members' + (hasNote ? ' · Has notes' : '') + '</p></div>' +
             '<span style="color:#aaa;font-size:20px">›</span>' +
           '</div>';
         })
       ].join('');
 
-      if (!items) {
-        container.innerHTML = '<div class="empty-state"><p>No favorites yet.</p><p style="font-size:13px">Add students or bands to Favorites to take notes on them.</p></div>';
-      } else {
-        container.innerHTML = items;
-      }
+      container.innerHTML = items || '<div class="empty-state"><p>No favorites yet.</p><p style="font-size:13px">Add students or bands to Favorites to take notes.</p></div>';
     }
 
     function openNotesPage(key, name, subtitle) {
@@ -634,10 +816,8 @@
     }
 
     function closeNotesPage() {
-      // Auto-save on back
-      if (currentNotesKey) {
-        notes[currentNotesKey] = document.getElementById('notes-textarea').value;
-      }
+      if (currentNotesKey) notes[currentNotesKey] = document.getElementById('notes-textarea').value;
+      save();
       currentNotesKey = null;
       document.getElementById('notes-page').classList.remove('open');
       document.getElementById('notes-list-view').classList.remove('hidden');
@@ -647,12 +827,13 @@
     document.getElementById('notes-textarea').addEventListener('input', () => {
       if (currentNotesKey) {
         notes[currentNotesKey] = document.getElementById('notes-textarea').value;
+        save();
         document.getElementById('notes-saved').textContent = 'Saved';
         setTimeout(() => { document.getElementById('notes-saved').textContent = ''; }, 1500);
       }
     });
 
-    // ── EARNINGS SUMMARY ──────────────────────────────
+    // ── EARNINGS ──────────────────────────────────────
     function earningsSummaryHTML(lessons, label) {
       const e = calcEarnings(lessons);
       if (lessons.length === 0) return '';
@@ -675,25 +856,22 @@
     // ── LOGGED LESSONS ────────────────────────────────
     function renderLoggedLessons() {
       const container = document.getElementById('logged-lessons-view');
-      if (loggedLessons.length === 0) {
-        container.innerHTML = '<div class="empty-state"><p>No lessons logged yet.</p></div>';
-        return;
-      }
-
-      const sorted = [...loggedLessons].sort((a,b) => (b.date+b.time).localeCompare(a.date+a.time));
-      const currentMonth = todayISO().slice(0,7);
-      const todayLessons = sorted.filter(l => l.date === todayISO());
-
-      const byMonth = {};
-      sorted.forEach(l => {
-        const mk = monthKey(l.date);
-        if (!byMonth[mk]) byMonth[mk] = [];
-        byMonth[mk].push(l);
-      });
+      const currentPeriod = getCurrentPeriod();
+      const loggedLessons = getLoggedLessons();
 
       let html = '';
 
-      // Today section
+      // Period bar
+      html += '<div class="period-bar">' +
+        '<div>' +
+          '<div class="period-label">' + (currentPeriod ? currentPeriod.name : 'No period') + '</div>' +
+          '<div class="period-sub">Current period</div>' +
+        '</div>' +
+        '<button class="btn-new-period" onclick="openNewPeriodModal()">+ New Period</button>' +
+      '</div>';
+
+      // Today
+      const todayLessons = loggedLessons.filter(l => l.date === todayISO());
       html += '<div style="background:#f0fdf4;border-radius:12px;padding:16px;margin-bottom:24px;border:1px solid #bbf7d0">';
       html += '<div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#16a34a;margin-bottom:10px">Today — ' + formatDate(todayISO()) + '</div>';
       if (todayLessons.length === 0) {
@@ -703,48 +881,55 @@
       }
       html += '</div>';
 
-      // This month earnings + lessons
-      const thisMonthAll = byMonth[currentMonth] || [];
-      html += earningsSummaryHTML(thisMonthAll, monthLabel(currentMonth));
+      // Current period earnings + all lessons
+      html += earningsSummaryHTML(loggedLessons, currentPeriod ? currentPeriod.name : 'Current');
 
-      const thisMonthLessons = thisMonthAll.filter(l => l.date !== todayISO());
-      if (thisMonthLessons.length > 0) {
-        html += '<div class="month-block"><div class="month-heading">' + monthLabel(currentMonth) + '</div>';
+      const nonToday = loggedLessons.filter(l => l.date !== todayISO());
+      if (nonToday.length > 0) {
         const byDate = {};
-        thisMonthLessons.forEach(l => {
+        nonToday.sort((a,b) => (b.date+b.time).localeCompare(a.date+a.time)).forEach(l => {
           if (!byDate[l.date]) byDate[l.date] = [];
           byDate[l.date].push(l);
         });
         Object.keys(byDate).sort((a,b) => b.localeCompare(a)).forEach(date => {
           html += '<div class="section-divider">' + formatDate(date) + '</div>';
           byDate[date].forEach(l => { html += logCard(l); });
+        });
+      }
+
+      // Past periods
+      const pastPeriods = periods.filter(p => String(p.id) !== String(currentPeriodId)).reverse();
+      if (pastPeriods.length > 0) {
+        html += '<div style="margin-top:32px">';
+        pastPeriods.forEach(p => {
+          const e = calcEarnings(p.lessons);
+          html += '<div class="past-period-toggle" onclick="togglePastPeriod(\'' + p.id + '\')">' +
+            '<span>' + p.name + '</span>' +
+            '<span style="color:#888;font-size:13px">$' + e.total.toFixed(2) + ' · ' + p.lessons.length + ' session' + (p.lessons.length !== 1 ? 's' : '') + ' ▾</span>' +
+          '</div>' +
+          '<div class="past-period-content" id="past-' + p.id + '">';
+          html += earningsSummaryHTML(p.lessons, p.name);
+          if (p.lessons.length > 0) {
+            const byDate = {};
+            p.lessons.sort((a,b) => (b.date+b.time).localeCompare(a.date+a.time)).forEach(l => {
+              if (!byDate[l.date]) byDate[l.date] = [];
+              byDate[l.date].push(l);
+            });
+            Object.keys(byDate).sort((a,b) => b.localeCompare(a)).forEach(date => {
+              html += '<div class="section-divider">' + formatDate(date) + '</div>';
+              byDate[date].forEach(l => { html += logCard(l); });
+            });
+          }
+          html += '</div>';
         });
         html += '</div>';
       }
 
-      // Past months
-      const pastMonths = Object.keys(byMonth).filter(mk => mk < currentMonth).sort((a,b) => b.localeCompare(a));
-      pastMonths.forEach(mk => {
-        const count = byMonth[mk].length;
-        const e = calcEarnings(byMonth[mk]);
-        html += '<div class="past-month-toggle" onclick="togglePastMonth(\'' + mk + '\')">' +
-          '<span>' + monthLabel(mk) + '</span>' +
-          '<span style="color:#888;font-size:13px">$' + e.total.toFixed(2) + ' · ' + count + ' session' + (count !== 1 ? 's' : '') + ' ▾</span>' +
-          '</div><div class="past-month-content" id="past-' + mk + '">';
-        html += earningsSummaryHTML(byMonth[mk], monthLabel(mk));
-        const byDate = {};
-        byMonth[mk].forEach(l => {
-          if (!byDate[l.date]) byDate[l.date] = [];
-          byDate[l.date].push(l);
-        });
-        Object.keys(byDate).sort((a,b) => b.localeCompare(a)).forEach(date => {
-          html += '<div class="section-divider">' + formatDate(date) + '</div>';
-          byDate[date].forEach(l => { html += logCard(l); });
-        });
-        html += '</div>';
-      });
-
       container.innerHTML = html;
+    }
+
+    function togglePastPeriod(id) {
+      document.getElementById('past-' + id).classList.toggle('open');
     }
 
     function logCard(l) {
@@ -763,23 +948,31 @@
         '</div>' +
         '<div class="log-card-right">' +
           '<div class="duration">' + durationLabel(l.duration) + '</div>' +
-          '<div class="type-tag" style="color:#22c55e;font-weight:600">$' + earnings.toFixed(2) + '</div>' +
+          '<div class="type-tag">$' + earnings.toFixed(2) + '</div>' +
         '</div>' +
       '</div>';
     }
 
-    function togglePastMonth(mk) { document.getElementById('past-' + mk).classList.toggle('open'); }
-
     // ── EXPORT ────────────────────────────────────────
+    function populateExportPeriods() {
+      const select = document.getElementById('export-period-select');
+      select.innerHTML = periods.slice().reverse().map(p =>
+        '<option value="' + p.id + '">' + p.name + (String(p.id) === String(currentPeriodId) ? ' (current)' : '') + '</option>'
+      ).join('');
+      const teacherName = document.getElementById('teacher-name-input');
+      if (!teacherName.value) teacherName.value = currentUser || '';
+    }
+
     function exportCSV() {
       const teacherName = document.getElementById('teacher-name-input').value.trim();
-      if (!teacherName) { alert('Please enter your name before exporting.'); return; }
-      const month = document.getElementById('export-month').value;
-      if (!month) { alert('Please select a month to export.'); return; }
+      if (!teacherName) { alert('Please enter your name.'); return; }
+      const periodId = document.getElementById('export-period-select').value;
+      const period = periods.find(p => String(p.id) === String(periodId));
+      if (!period) { alert('Period not found.'); return; }
 
       const rows = [['Teacher Name','Student Name','Parent Name','Date','Time','Duration (hrs)','Session Type','Band Name']];
 
-      loggedLessons.filter(l => l.date.startsWith(month)).forEach(l => {
+      period.lessons.forEach(l => {
         if (l.bandId) {
           const band = bands.find(b => b.id === l.bandId);
           const presentIds = l.presentMemberIds || band?.memberIds || [];
@@ -793,14 +986,14 @@
         }
       });
 
-      if (rows.length === 1) { alert('No lessons found for that month.'); return; }
+      if (rows.length === 1) { alert('No lessons in that period.'); return; }
 
       const csv = rows.map(r => r.map(v => '"' + String(v).replace(/"/g, '""') + '"').join(',')).join('\n');
       const blob = new Blob([csv], { type: 'text/csv' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = teacherName.replace(/\s/g,'_') + '_' + month + '.csv';
+      a.download = teacherName.replace(/\s/g,'_') + '_' + period.name.replace(/\s/g,'_') + '.csv';
       a.click();
       URL.revokeObjectURL(url);
     }
@@ -817,9 +1010,9 @@
       document.getElementById('fg-type').style.display = 'none';
       renderBandMemberChecklist(band.memberIds, band.memberIds);
       const assignedDays = band.days || [];
-      if (assignedDays.length === 0) { showBandLessonForm(todayISO(), bandId); }
-      else if (assignedDays.length === 1) { showBandLessonForm(mostRecentDay(assignedDays[0]), bandId); }
-      else { showBandDaySelect(bandId, assignedDays); }
+      if (assignedDays.length === 0) showBandLessonForm(todayISO(), bandId);
+      else if (assignedDays.length === 1) showBandLessonForm(mostRecentDay(assignedDays[0]), bandId);
+      else showBandDaySelect(bandId, assignedDays);
     }
 
     function renderBandMemberChecklist(memberIds, checkedIds) {
@@ -871,17 +1064,21 @@
       const time = document.getElementById('lesson-time').value;
       const duration = parseFloat(document.querySelector('#lesson-duration-picker .dur-btn.selected')?.dataset.dur || 1);
       const presentMemberIds = [...document.querySelectorAll('#band-member-checklist input:checked')].map(c => parseInt(c.value));
+      const period = getCurrentPeriod();
+      if (!period) return;
       if (editingLessonId) {
-        loggedLessons = loggedLessons.map(l => l.id === editingLessonId ? { ...l, date, time, duration, presentMemberIds } : l);
+        period.lessons = period.lessons.map(l => l.id === editingLessonId ? { ...l, date, time, duration, presentMemberIds } : l);
       } else {
-        loggedLessons.push({ id: Date.now(), bandId, date, time, duration, type: 'band', presentMemberIds });
+        period.lessons.push({ id: Date.now(), bandId, date, time, duration, type: 'band', presentMemberIds });
       }
+      save();
       closeLessonModal();
       renderFavorites();
-      if (editSource === 'logged') renderLoggedLessons();
+      renderLoggedLessons();
     }
 
     function openEditBandLesson(lessonId, source) {
+      const loggedLessons = getLoggedLessons();
       const lesson = loggedLessons.find(l => l.id === lessonId);
       const band = bands.find(b => b.id === lesson.bandId);
       editingLessonId = lessonId;
@@ -915,9 +1112,9 @@
       setDurationPicker('lesson-duration-picker', fav?.duration || 1);
       setTypePicker('individual');
       const assignedDays = fav?.days || [];
-      if (assignedDays.length === 0) { showLessonForm(todayISO(), studentId); }
-      else if (assignedDays.length === 1) { showLessonForm(mostRecentDay(assignedDays[0]), studentId); }
-      else { showDaySelectForLog(studentId, assignedDays); }
+      if (assignedDays.length === 0) showLessonForm(todayISO(), studentId);
+      else if (assignedDays.length === 1) showLessonForm(mostRecentDay(assignedDays[0]), studentId);
+      else showDaySelectForLog(studentId, assignedDays);
     }
 
     function showLessonForm(date, studentId) {
@@ -950,6 +1147,7 @@
     }
 
     function openEditLesson(lessonId, source) {
+      const loggedLessons = getLoggedLessons();
       const lesson = loggedLessons.find(l => l.id === lessonId);
       const s = allStudents.find(st => st.id === lesson.studentId);
       editingLessonId = lessonId;
@@ -975,21 +1173,27 @@
       const time = document.getElementById('lesson-time').value;
       const duration = parseFloat(document.querySelector('#lesson-duration-picker .dur-btn.selected')?.dataset.dur || 1);
       const type = document.querySelector('.type-btn.selected')?.dataset.type || 'individual';
+      const period = getCurrentPeriod();
+      if (!period) return;
       if (editingLessonId) {
-        loggedLessons = loggedLessons.map(l => l.id === editingLessonId ? { ...l, date, time, duration, type } : l);
+        period.lessons = period.lessons.map(l => l.id === editingLessonId ? { ...l, date, time, duration, type } : l);
       } else {
-        loggedLessons.push({ id: Date.now(), studentId, date, time, duration, type });
+        period.lessons.push({ id: Date.now(), studentId, date, time, duration, type });
       }
+      save();
       closeLessonModal();
       renderFavorites();
-      if (editSource === 'logged') renderLoggedLessons();
+      renderLoggedLessons();
     }
 
     function deleteLesson(lessonId) {
-      loggedLessons = loggedLessons.filter(l => l.id !== lessonId);
+      const period = getCurrentPeriod();
+      if (!period) return;
+      period.lessons = period.lessons.filter(l => l.id !== lessonId);
+      save();
       closeLessonModal();
+      renderFavorites();
       renderLoggedLessons();
-      if (editSource === 'logged') renderLoggedLessons();
     }
 
     function closeLessonModal() {
@@ -1029,7 +1233,7 @@
       });
     });
 
-    // ── ROSTER MODAL ──────────────────────────────────
+    // ── ROSTER ────────────────────────────────────────
     function openRosterModal() {
       document.querySelector('#roster-modal .search-input').value = '';
       renderRosterList('');
@@ -1045,10 +1249,7 @@
         s.name.toLowerCase().includes(query.toLowerCase()) && !favIds.includes(s.id)
       );
       const container = document.getElementById('roster-list');
-      if (filtered.length === 0) {
-        container.innerHTML = '<p style="color:#aaa;text-align:center;padding:20px">No students found</p>';
-        return;
-      }
+      if (filtered.length === 0) { container.innerHTML = '<p style="color:#aaa;text-align:center;padding:20px">No students found</p>'; return; }
       container.innerHTML = filtered.map(s =>
         '<div class="roster-item">' +
           '<div><div style="font-weight:600">' + s.name + '</div>' +
@@ -1115,19 +1316,18 @@
       const usualTime = document.getElementById('usual-time').value;
       const dur = parseFloat(document.querySelector('#time-modal-duration .dur-btn.selected')?.dataset.dur || 1);
       if (editingFavoriteId) {
-        favorites = favorites.map(f =>
-          f.studentId === editingFavoriteId ? { ...f, days: [...selectedDays], usualTime, duration: dur } : f
-        );
+        favorites = favorites.map(f => f.studentId === editingFavoriteId ? { ...f, days: [...selectedDays], usualTime, duration: dur } : f);
       } else {
         favorites.push({ studentId: id, days: [...selectedDays], usualTime, duration: dur });
       }
       pendingStudent = null;
       editingFavoriteId = null;
+      save();
       document.getElementById('time-modal').classList.remove('open');
       renderFavorites();
     }
 
-    // ── CREATE BAND ───────────────────────────────────
+    // ── BAND CREATION ─────────────────────────────────
     function openCreateBandModal() {
       pendingBand = { name: '', memberIds: [], days: [], usualTime: '', duration: 1 };
       editingBandId = null;
@@ -1211,6 +1411,7 @@
         bands.push({ id: Date.now(), name: pendingBand.name, memberIds: pendingBand.memberIds, days: [...bandSelectedDays], usualTime, duration: dur });
       }
       editingBandId = null;
+      save();
       document.getElementById('band-time-modal').classList.remove('open');
       renderFavorites();
     }
@@ -1224,11 +1425,14 @@
       document.getElementById('create-band-modal').classList.add('open');
     }
 
-    // Set default export month to current month
-    const now = new Date();
-    document.getElementById('export-month').value = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
-
-    renderFavorites();
+    // ── INIT ──────────────────────────────────────────
+    const savedUser = localStorage.getItem('studio_current_user');
+    if (savedUser) {
+      const users = JSON.parse(localStorage.getItem('studio_users') || '{}');
+      if (users[savedUser.toLowerCase()]) {
+        loginUser(savedUser);
+      }
+    }
   </script>
 
 </body>
